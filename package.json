@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hannalegar/blog#readme",
   "dependencies": {
-    "express": "^4.13.0"
+    "express": "^4.13.0",
+    "mongoose": "^4.0.6"
   }
 }

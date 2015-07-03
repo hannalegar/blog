@@ -1,290 +1,196 @@
-/*
-	GET /posts
-	GET /posts/:id
-	GET /posts/:id/comments
-	* GET /posts/:id/comments/:id
-	
-	DELETE /posts/:id
-	* DELETE /posts/:id/comments
-	DELETE /posts/:id/comments/:id
-	
-	POST /posts
-	POST /posts/:id/comments
-	
-	PUT /posts/:id
-	PUT /posts/:id/comments/:id 
-*/
-
+var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
 
-var db = {
-		posts: {
-			1: {
-				"id": 1,
-				"title": "knfvpemn",
-				"content": "pwnfpwem",
-				"created_at": "2015-06-25T15:47:45.416Z",
-				"posted_by": "lencsi",
-				"comments": {
-					1: {
-						"post_id": "1",
-						"id": 1,
-						"content": "kngowenfwenmfokenw",
-						"created_at": "2015-06-25T15:48:58.791Z",
-						"posted_by": "lencsi"
-				},
-				"lastCommentId": 1
-			}
-		},			
-		lastPostId: 1
-		}		
-	},
-	error = {
-		errorMessage: ''
-	}
-	
+// schema
+var postSchema = mongoose.Schema({
+	title: String, 
+	author: String,
+	content: String,
+	date: {type: Date, default: Date.now}
+});
+var commentSchema = mongoose.Schema({
+	author: String,
+	content: String,
+	post_id: mongoose.Schema.Types.ObjectId, //objectid
+	date: {type: Date, default: Date.now}
+});
 
-    /* posts
-    {
-        1: {
-            id: 1
-            title: 'asad',
-            content: 'vdasda',
-            posted_by: 'dsadsa',
-			date:
-			comments: {
-				1: {
-					comment_id:
-					content:
-					commented_by:_
-					date: 
-				},
-				lastCommentId:0
-			}
-        },
-        2: {
-            id: 2
-            title: 'asad',
-            content: 'vdasda',
-            posted_by: 'dsadsa'
-        },
-		lastPostId: 2
-    };
-	
-	------------------------------------------
-	error:
-	{
-		errorMessage: 'asdasdsadasda'		
-	}
-    */
+// model
+var Post = mongoose.model('Post', postSchema);
+var Comment = mongoose.model('Comment', commentSchema);
+mongoose.connect('mongodb://hanna:userpass@ds053972.mongolab.com:53972/blog');
 
+// error
+// once open
+// 	Post.find()
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(){
+	console.log('DB connection is up');
+});
+
+Post.schema.path('author').validate( function (value){
+	 console.log(value);
+	 return value !== undefined;
+ }, 'Nincs megadva név!');
 
 /*
-GET     /posts      -> db.posts
-GET     /posts/1    -> db.posts['1']
-GET     /posts/x    -> -
-POST    /posts      -> db.posts[id] = { req.params[] }
-*/
+Post.schema.path('title').validate( function (value){
+	 console.log(value);
+	 return value !== undefined;
+ }, 'Nincs megadva cím!');
+
+Post.schema.path('content').validate( function (value){
+	 console.log(value);
+	 return value !== undefined;
+ }, 'Nincs megadva tartalom!');*/
+ 
+ 
+ /*
+ var error = {
+	 errorMessage: ''
+ 	}*/
+
 
 app.get('/posts', function (req, res) {
-	res.send(db.posts);
+	Post.find(function (err, posts){
+		if (err) {
+			console.log(err);
+			res.send(err);
+		} else {
+			res.send(posts);
+		}
+	})
 });
 
 app.get('/posts/:post_id', function (req, res) {
-	// var post = db.posts[req.params.post_id]
-	// ha post === undefined
-	// -> hiba
-	// egyébként
-	// -> post
-	
-	var post = db.posts[req.params.post_id];
-	
-	if (post === undefined) {
-		error.errorMessage = 'Nincs ilyen post!';
-		res.send(error);
-	} else {
-		res.send(post);
-	}
+		Post.findOne({ _id : req.params.post_id }, function (err, post){
+			if (err) {
+				res.send ('Nincs ilyen post!');
+				console.log (err);
+			} else {
+				res.send (post);
+			}
+		})
 });
 
 app.get('/posts/:post_id/comments', function (req, res) {
-	// var post = db.posts[req.params.post_id]
-	// ha post === undefined
-	// -> hiba
-	// else
-	// ??????? posthoz commentet berakni
-	// db.posts[post_id].comments =
 	
-	var post = db.posts[req.params.post_id];
-	
-	if (post === undefined) {
-		error.errorMessage = 'Nincs ilyen post!';
-		res.send(error);
-	} else {
-		res.send(post.comments); 
-	}
+	Comment.find({ post_id : req.params.post_id }, function (err, comment){
+		if (err) {
+			console.log('Nincs ilyen post!');
+			res.send('Nincs ilyen post!');
+		} else {
+			res.send(comment);
+		}
+	})
 });
 
-/*
-	app.get('/posts/:post_id/comments/:comment_id', function(req, res){
-		res.send('');
-	});
-	
-*/
 
 app.delete('/posts/:post_id', function (req, res) {
-	// var post = db.posts[req.params.post_id]
-	// ha post === undefined
-	// -> hiba
-	// egyébként
-	// db.posts[req.params.post_id] torles
-	// uzi
-	
-	var post = db.posts[req.params.post_id];
-	if (post === undefined) {
-		error.errorMessage = 'Nem vol ilyen post';
-		res.send(error);
-	} 
-	
-	delete  db.posts[req.params.post_id];
-	res.send('A post törölve lett!');
-	
+
+	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
+		if (err) {
+			res.send ('Nem vol ilyen post!');
+			console.log ('Nem vol ilyen post!');
+		} else {
+			res.send ('A post törölve lett!');
+			console.log(req.params.post_id, post, 'A post törölve lett!');
+		}
+	})
 });
 
-/*
-app.delete('/posts/:post_id/comments', function (req, res) {
-	res.send('Got a DELETE request at /posts/:post_id/comments);
-});
-*/
 
 app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
-	var post = db.posts[req.params.post_id],
-		comment = post.comments[req.params.comment_id];
-		
-	if (post === undefined || comment === undefined) {
-		error.errorMessage = 'Nincsen mit törölni!';
-		res.send(error);
-	} 
 	
-	delete db.posts[req.params.post_id].comments[req.params.comment_id];
-	res.send('A comment törölve!');
-	
+	Comment.findOneAndRemove({ _id : req.params.comment_id, post_id : req.params.post_id }, function (err, comment){
+		if (err){
+			console.log('Nem volt ilyen comment!');
+			res.send('Nem volt ilyen comment!');
+		} else {
+			console.log('A comment törölve lett!');
+			res.send('A comment törölve lett!');
+		}
+	})
 });
 
 app.post('/posts', function (req, res) {		
-	var isOk = true,
-		post_number;
-	
-	if (req.query.title === undefined) {
-		error.errorMessage += "Nincs megadva cím!\n";
-		isOk = false;
-	} 
-	
-	if (req.query.content === undefined) {
-		error.errorMessage += "Hiányzik a tartalom!\n";
-		isOk = false;
-	}
-	
-	if (req.query.posted_by === undefined) {
-		error.errorMessage += "Nincs megadva név!\n";	
-	}
-	
-	if (!isOk) {
-		return res.send(error);
-	}
-					 
-	post_number =  ++db.posts.lastPostId;		
 
-	db.posts[post_number] = {
-		id: post_number, 
-		title: req.query.title, //post-oltam
-		content: req.query.content, //post-oltam
-		created_at: new Date(), //datumot ;)
-		posted_by: req.query.posted_by, // post-oltam
-		comments: {
-			lastCommentId: 0
+	/*
+	Post.create({ title : req.query.title, author : req.query.author, content : req.query.content }, function (err, post){
+		if (err) {
+			console.log(err);
+			res.send(err);
+		} else {
+			console.log(post);
+			res.send(post);
 		}
-	}
-	res.send(db.posts[post_number]);
+	})
+	*/
+	
+	var post = new Post ({ title : req.query.title, author : req.query.author, content : req.query.content });
+	console.log(post);
+
+	post.save(function (err, post) {
+		 if (err ){
+			 console.log(err);
+			 res.send(err);
+		 } else {
+			 res.send (post);
+		 }
+	}) 
 });
 
 app.post('/posts/:post_id/comments', function (req, res) {
-	var isOk = true,
-		post = db.posts[req.params.post_id],
-		comment_number;
-	
-	if (req.query.content === undefined) {
-		error.errorMessage += "Nincsen a commentnek tartalma!\n";
-		isOk = false;
-	} 
-	if (req.query.posted_by === undefined) {
-		error.errorMessage += "Név nélkül nem lehet posztolni!\n";
-		isOk = false;
-	}
-	if (!isOk) {
-		res.send(error);
-	} 
-	
-	comment_number = ++ db.posts[req.params.post_id].comments.lastCommentId;
-					
-	post.comments[comment_number] = {
-		post_id: req.params.post_id, //a felso post id
-		id:  comment_number, //random szam,
-		content: req.query.content, //post-oltam,
-		created_at: new Date(), //tudod mit kell itt csinal
-		posted_by: req.query.posted_by //post-oltam
-	};
-				
-	res.send(post.comments[comment_number]); 
-	
+
+		Comment.create({ author : req.query.author, content : req.query.content, post_id : req.params.post_id }, function (err, comment){
+			if (err) {
+				console.log(err);
+				res.send(err);
+			} else {
+				console.log(comment);
+				res.send(comment);
+			}	
+		})  
+
 });
 
 app.put('/posts/:post_id', function (req, res) {
-	var post = db.posts[req.params.post_id];
-	
-	if (post === undefined) {
-		error.errorMessage = 'Nincs ilyen post!';
-		res.send(error);
+ 
+	var data = {};
+	if ( req.query.content !== undefined ) {
+		data.content = req.query.content;
 	}
-	
-	post.content = req.query.content,
-	post.title = req.query.title;
-	res.send(post);
-	
+	if ( req.query.title !== undefined ) {
+		data.title = req.query.title;
+	} else {
+		Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
+			if (err) {
+				console.log('Nincs ilyen post!');
+				res.send('Nincs ilyen post!');
+			} else {
+				console.log(data);
+				res.send(post);
+			}
+		})
+	}
 });
 
 app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
-	var post = db.posts[req.params.post_id],
-		comment = post.comments[req.params.comment_id],
-		isOk = true;
-	
-	error.errorMessage = '';
-	
-	if (post === undefined || comment === undefined) {
-		error.errorMessage += 'Nincs módosítani való!';
-		return res.send(error);
-	}	
-	if (!req.query.content) {
-		error.errorMessage += 'Nincs tartalom!';
-		isOk = false;			
+
+	var data = {};
+	if ( req.query.content !== undefined ) {
+		data.content = req.query.content;
 	}
-	if (!req.query.posted_by) {
-		error.errorMessage += 'Nincs szerzo!';		
-		isOk = false;			
-	}
-	
-	if (!isOk) {
-		return res.send(error);
-	}
-	
-	if (comment.content === req.query.content) {
-		return res.send(comment);
-	}
-	
-	comment.content = req.query.content;
-	res.send(comment);
-	
+	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, data, function (err, comment){
+		if (err) {
+			console.log('Nincs ilyen comment!');
+			res.send('Nincs ilyen comment!');
+		} else {
+			res.send(comment);
+		}
+	}) 
 });
 
 var server = app.listen(3000, function () {
