@@ -38,9 +38,9 @@ app.get('/posts', function (req, res) {
 app.get('/posts/:post_id', function (req, res) {
 	Post.findOne({ _id : req.params.post_id }, function (err, post){
 		if (err) {
-			res.send ('Nincs ilyen post!');
+			res.send('Nincs ilyen post!');
 		} else {
-			res.send (post);
+			res.send(post);
 		}
 	})
 });
@@ -58,9 +58,9 @@ app.get('/posts/:post_id/comments', function (req, res) {
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
-			res.send ('Nem vol ilyen post!');
+			res.send('Nem vol ilyen post!');
 		} else {
-			res.send ('A post törölve lett!');
+			res.send('A post törölve lett!');
 		}
 	})
 });
