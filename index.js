@@ -2,84 +2,59 @@ var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
 
+
 // schema
 var postSchema = mongoose.Schema({
-	title: String, 
-	author: String,
-	content: String,
-	date: {type: Date, default: Date.now}
+	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
+	author: { type: String, required: 'Nincs megadva szerző!' },
+	content: { type: String, required: 'Nincsen tartalom!' },
+	date: { type: Date, default: Date.now }
 });
 var commentSchema = mongoose.Schema({
-	author: String,
-	content: String,
+	author: { type: String, required: 'Nincs megadva szerző!' },
+	content: { type: String, required: 'Nincsen tartalom!' },
 	post_id: mongoose.Schema.Types.ObjectId, //objectid
-	date: {type: Date, default: Date.now}
+	date: { type: Date, default: Date.now }
 });
 
 // model
-var Post = mongoose.model('Post', postSchema);
-var Comment = mongoose.model('Comment', commentSchema);
-mongoose.connect('mongodb://hanna:userpass@ds053972.mongolab.com:53972/blog');
+var Post = mongoose.model( 'Post', postSchema );
+var Comment = mongoose.model( 'Comment', commentSchema );
+mongoose.connect( 'mongodb://hanna:userpass@ds053972.mongolab.com:53972/blog' );
 
 // error
 // once open
 // 	Post.find()
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(){
-	console.log('DB connection is up');
+db.on( 'error', console.error.bind(console, 'connection error:' ));
+db.once( 'open', function(){
+	console.log( 'DB connection is up' );
 });
-
-Post.schema.path('author').validate( function (value){
-	 console.log(value);
-	 return value !== undefined;
- }, 'Nincs megadva név!');
-
-/*
-Post.schema.path('title').validate( function (value){
-	 console.log(value);
-	 return value !== undefined;
- }, 'Nincs megadva cím!');
-
-Post.schema.path('content').validate( function (value){
-	 console.log(value);
-	 return value !== undefined;
- }, 'Nincs megadva tartalom!');*/
- 
- 
- /*
- var error = {
-	 errorMessage: ''
- 	}*/
-
 
 app.get('/posts', function (req, res) {
 	Post.find(function (err, posts){
 		if (err) {
-			console.log(err);
 			res.send(err);
 		} else {
 			res.send(posts);
 		}
 	})
 });
-
+ 
 app.get('/posts/:post_id', function (req, res) {
-		Post.findOne({ _id : req.params.post_id }, function (err, post){
-			if (err) {
-				res.send ('Nincs ilyen post!');
-				console.log (err);
-			} else {
-				res.send (post);
-			}
-		})
+	Post.findOne({ _id : req.params.post_id }, function (err, post){
+		if (err) {
+			res.send ('Nincs ilyen post!');
+		} else {
+			res.send (post);
+		}
+	})
 });
 
 app.get('/posts/:post_id/comments', function (req, res) {
 	
 	Comment.find({ post_id : req.params.post_id }, function (err, comment){
 		if (err) {
-			console.log('Nincs ilyen post!');
 			res.send('Nincs ilyen post!');
 		} else {
 			res.send(comment);
@@ -93,10 +68,8 @@ app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
 			res.send ('Nem vol ilyen post!');
-			console.log ('Nem vol ilyen post!');
 		} else {
 			res.send ('A post törölve lett!');
-			console.log(req.params.post_id, post, 'A post törölve lett!');
 		}
 	})
 });
@@ -106,58 +79,54 @@ app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
 	
 	Comment.findOneAndRemove({ _id : req.params.comment_id, post_id : req.params.post_id }, function (err, comment){
 		if (err){
-			console.log('Nem volt ilyen comment!');
 			res.send('Nem volt ilyen comment!');
 		} else {
-			console.log('A comment törölve lett!');
 			res.send('A comment törölve lett!');
 		}
 	})
 });
 
 app.post('/posts', function (req, res) {		
-
-	/*
+	
 	Post.create({ title : req.query.title, author : req.query.author, content : req.query.content }, function (err, post){
+		var errmessage = {};
 		if (err) {
-			console.log(err);
-			res.send(err);
+			if ( err.errors.title ) {
+				errmessage.title = err.errors.title.message;
+			}
+			if ( err.errors.content ) {
+				errmessage.content = err.errors.content.message;
+			}
+			if ( err.errors.author ) {
+				errmessage.author = err.errors.author.message;
+			}
+			res.send(errmessage);
 		} else {
-			console.log(post);
 			res.send(post);
 		}
 	})
-	*/
-	
-	var post = new Post ({ title : req.query.title, author : req.query.author, content : req.query.content });
-	console.log(post);
-
-	post.save(function (err, post) {
-		 if (err ){
-			 console.log(err);
-			 res.send(err);
-		 } else {
-			 res.send (post);
-		 }
-	}) 
 });
 
 app.post('/posts/:post_id/comments', function (req, res) {
 
 		Comment.create({ author : req.query.author, content : req.query.content, post_id : req.params.post_id }, function (err, comment){
+			var errmessage = {};
 			if (err) {
-				console.log(err);
-				res.send(err);
+				if ( err.errors.content ){
+					errmessage.content = err.errors.content.message;
+				}
+				if ( err.errors.author ) {
+					errmessage.author = err.errors.author.message;
+				}
+				res.send(errmessage);
 			} else {
-				console.log(comment);
 				res.send(comment);
 			}	
-		})  
-
+		}) 
 });
 
 app.put('/posts/:post_id', function (req, res) {
- 
+  
 	var data = {};
 	if ( req.query.content !== undefined ) {
 		data.content = req.query.content;
@@ -167,10 +136,8 @@ app.put('/posts/:post_id', function (req, res) {
 	} else {
 		Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
 			if (err) {
-				console.log('Nincs ilyen post!');
 				res.send('Nincs ilyen post!');
 			} else {
-				console.log(data);
 				res.send(post);
 			}
 		})
@@ -185,7 +152,6 @@ app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
 	}
 	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, data, function (err, comment){
 		if (err) {
-			console.log('Nincs ilyen comment!');
 			res.send('Nincs ilyen comment!');
 		} else {
 			res.send(comment);
