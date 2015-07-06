@@ -119,23 +119,21 @@ app.put('/posts/:post_id', function (req, res) {
 	}
 	if (req.query.title !== undefined) {
 		data.title = req.query.title;
-	} else {
-		Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
-			if (err) {
-				res.send('Nincs ilyen post!');
-			} else {
-				res.send(post);
-			}
-		})
 	}
+	Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
+		if (err) {
+			res.send('Nincs ilyen post!');
+		} else {
+			res.send(post);
+		}
+	})
 });
 
 app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
-	var data = {};
 	if (req.query.content !== undefined) {
-		data.content = req.query.content;
+		Post.content = req.query.content;
 	}
-	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, data, function (err, comment){
+	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, Post.content, function (err, comment){
 		if (err) {
 			res.send('Nincs ilyen comment!');
 		} else {
@@ -145,9 +143,9 @@ app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
 });
 
 var server = app.listen(3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
+	var host = server.address().address;
+  	var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  	console.log('Example app listening at http://%s:%s', host, port);
 
 });
