@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
 
-// schema
 var postSchema = mongoose.Schema({
 	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
 	author: { type: String, required: 'Nincs megadva szerző!' },
@@ -12,18 +11,14 @@ var postSchema = mongoose.Schema({
 var commentSchema = mongoose.Schema({
 	author: { type: String, required: 'Nincs megadva szerző!' },
 	content: { type: String, required: 'Nincsen tartalom!' },
-	post_id: mongoose.Schema.Types.ObjectId, //objectid
+	post_id: mongoose.Schema.Types.ObjectId, 
 	date: { type: Date, default: Date.now }
 });
 
-// model
 var Post = mongoose.model('Post', postSchema);
 var Comment = mongoose.model('Comment', commentSchema);
 mongoose.connect('mongodb://hanna:userpass@ds053972.mongolab.com:53972/blog');
 
-// error
-// once open
-// 	Post.find()
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function(){
