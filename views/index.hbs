@@ -1,0 +1,22 @@
+<a  id="index-menu" href="">Menu</a>
+<header id="index-header">
+	<h1>my blog</h1>
+	<p>random thoughts is what I do</p>
+</header>
+{{#each post}} 
+	<div class="post">
+		<a href="http://localhost:3000/posts/{{_id}}" id="index-a">
+			<h2>{{title}}</h2>
+		</a>
+		<p id="post-meta">{{date}}</p>
+		<p>{{truncate content}}</p>
+	</div>
+	{{else}}
+		<p class="post">There are no posts!</p>
+{{/each}}
+{{#if post}}
+	<div id="footer">
+		<a id="oldpost" href="">Older Posts</a>
+		<p>Page of </p>
+	</div>
+{{/if}}

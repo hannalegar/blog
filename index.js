@@ -1,6 +1,11 @@
 var mongoose = require('mongoose');
 var express = require('express');
+var exphbs = require('express-handlebars');
 var app = express();
+
+app.use(express.static('public'));
+app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
+app.set('view engine', '.hbs');
 
 var postSchema = mongoose.Schema({
 	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
@@ -25,22 +30,29 @@ db.once('open', function(){
 	console.log('DB connection is up');
 });
 
-app.get('/posts', function (req, res) {
+app.get('/', function (req, res) {
 	Post.find(function (err, posts){
 		if (err) {
 			res.send(err);
 		} else {
-			res.send(posts);
+			res.render('index', {
+				post: posts,
+				helpers: {
+					truncate: function (text) {
+						return text.substring(0, 100)+'...';
+					}
+				}				
+			});
 		}
-	})
+	}).limit(3);
 });
- 
+
 app.get('/posts/:post_id', function (req, res) {
 	Post.findOne({ _id : req.params.post_id }, function (err, post){
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
-			res.send(post);
+			res.render('post', post);
 		}
 	})
 });
@@ -50,7 +62,7 @@ app.get('/posts/:post_id/comments', function (req, res) {
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
-			res.send(comment);
+			res.render('post');
 		}
 	})
 });
@@ -58,7 +70,7 @@ app.get('/posts/:post_id/comments', function (req, res) {
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
-			res.send('Nem vol ilyen post!');
+			res.send('Nincs ilyen post!');
 		} else {
 			res.send('A post törölve lett!');
 		}
@@ -68,14 +80,14 @@ app.delete('/posts/:post_id', function (req, res) {
 app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
 	Comment.findOneAndRemove({ _id : req.params.comment_id, post_id : req.params.post_id }, function (err, comment){
 		if (err){
-			res.send('Nem volt ilyen comment!');
+			res.send('Nincs ilyen comment!');
 		} else {
 			res.send('A comment törölve lett!');
 		}
 	})
 });
 
-app.post('/posts', function (req, res) {		
+app.post('/', function (req, res) {		
 	Post.create({ title : req.query.title, author : req.query.author, content : req.query.content }, function (err, post){
 		var errmessage = {};
 		if (err) {

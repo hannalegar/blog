@@ -1,15 +1,15 @@
+/* index */
 html,body { 
 	height: 100%;
 }
 body {
 	font-size: 16px;
 }
-
 #wrap {
 	width: 960px;
 	margin: 0 auto;
 }
-a {
+#index-menu, #oldpost {
 	text-decoration: none;
 	padding: 10px;
 	border: 1px solid #E1E4E5;
@@ -17,17 +17,17 @@ a {
 	border-radius: 45px;
 	font-size: 1em;
 }
-#menu {
+#index-menu {
 	float: right;
 	margin-top: 20px;
 	margin-right: 20px;
 }
-header {
+#index-header {
 	padding-top: 120px;
 	padding-bottom: 120px;
 	text-align: center;
 }
-header h1 {
+#index-header h1 {
 	font-family: 'Fira Sans', sans-serif;
 	font-size: 3.75em;/* 16 x 3.75 = 60px */
 	font-weight: bold;
@@ -36,7 +36,7 @@ header h1 {
 	text-indent: -1px;
 	margin-bottom: 0px;
 }
-header p {
+#index-header p {
 	font-family: 'Cardo', serif;
 	font-size: 1.87em;
 	line-height: 45px;
@@ -44,7 +44,8 @@ header p {
 	margin-top: 0;
 }
 .post {
-	padding: 55px;	
+	padding: 30px;
+	margin-top: 30px;
 }
 .post:before {
 	border-bottom: 1px solid #E1E4E5;
@@ -52,6 +53,10 @@ header p {
 	display: block;
 	position: relative;
 	bottom: 55px;
+}
+#index-a {
+	text-decoration: none;
+	color: black;
 }
 h2 {
 	font-family: 'Fira sans', sans-serif;
@@ -96,6 +101,143 @@ p {
 	float: right;
 	margin-top: 5px;
 }
+/* post */
+#post-home, #post-menu {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1em;
+	text-decoration: none;
+	border: 1px solid #E1E4E5;
+	border-radius: 35px;
+	padding: 10px;
+	margin: 20px;
+	color: white;
+	border-color: white;
+}
+#post-home {
+	float: left;
+}
+#post-menu {
+	float: right;
+}
+#post-header{
+	background-image: url("../images/quackey-teaser.png"); 
+	background-repeat: no-repeat;
+	background-size: 100%;
+	padding-top: 320px;
+	padding-bottom: 40px;
+}
+#post-title {
+	margin-left: 42px;
+	margin-right: 42px;
+	padding-left: 40px;
+	padding-right: 40px; 
+	color: white;
+}
+#post-header h1 {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 2.5em;
+	font-weight: bold;
+	line-height: 40px;
+	margin-bottom: 0px;
+	text-indent: -1;
+}
+#post-header p {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 0.93em;
+	font-weight: bold;
+	line-height: 20px;
+	margin-top: 0;
+	margin-bottom: 20px;
+	opacity: 0.75;
+}
+#post {
+	padding: 40px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+.content {
+	font-family: 'Cardo', serif;
+	font-size: 1.25em;
+	line-height: 30px;
+}
+#author{
+	display: block;
+	font-family: 'Fira sans', sans-serif;
+	padding-left: 40px;
+	padding-right: 40px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+#penguin {
+	width: 15%;
+	float: left;
+	padding: 10px;
+	padding-top: 0px;
+}
+#author h2 {
+	font-size: 1.25em;
+	font-weight: bold;
+	float: left;
+	width: 80%;
+	margin-bottom: 0;
+	margin-top: 0;	
+}
+#author p {
+	font-size: 0.93em;
+	float: left;
+	width: 80%;
+	margin: 0;
+}
+#post:after, #author:after, #posts:before, #posts:after {
+	border-bottom: 1px solid #E1E4E5;
+	content: " ";
+	display: block;
+	position: relative;
+	clear: both;
+}
+#comments {
+	border-radius: 30px;
+	padding: 5px;
+	background-color: white;
+	color: #E1E4E5;
+	display: block;
+	margin: 0 auto;
+	padding: 10px;
+	margin-bottom: 40px;
+	margin-top: 40px;
+	clear: both;
+}
+#posts {
+	margin: 40px;
+	padding: 40px;
+	margin-top: 0;
+	padding-top: 0;
+}
+#prev a, #next a {
+	text-decoration: none;
+	font-family: 'Fira sans', sans-serif;
+	color: black;
+}
+h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+#prev p, #next p {
+	font-size: 0.8em;
+}
+#prev, #next {
+	float: left;
+	width: 45%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+}
+#prev {
+	border-right: 1px solid #E1E4E5;
+	padding-right: 5%;
+}
+#next {
+	padding-left: 15px;
+}
 @media screen and (max-width: 960px){
 	#wrap {
 		width: auto;
@@ -105,18 +247,19 @@ p {
 	body {
 		font-size: 12px;
 	}
-	#menu {
+/* index */	
+	#index-menu {
 		margin-top: 14px;
 		margin-right: 14px;
 	}
 	#wrap {
 		width: auto;
 	}
-	header {
+	#index-header {
 		padding-top: 85px;
 		padding-bottom: 85px;
 	}
-	header h1 {
+	#index-header h1 {
 		line-height: 36px;
 	}
 	h2 {
@@ -124,7 +267,7 @@ p {
 		margin-bottom: 16px;
 	}
 	.post {
-		padding: 40;
+		padding: 20;
 	}
 	#post-meta {
 		margin-bottom: 15px;
@@ -133,51 +276,157 @@ p {
 	p {
 		line-height: 24px;
 	}	
+/* post */
+	a {
+		margin: 10px;
+	}
+	#post-home, #post-menu {
+		margin: 15px;
+	}
+	#post-header {
+		background-size: 100%;
+		padding-top: 224px;
+	}
+	#title {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+	#post-header h1{
+		line-height: 36px;
+	}
+	#post-header p{
+		margin-bottom: 16px;
+	}
+	#post {
+		margin-left: 30px;
+		margin-right: 30px;
+		padding: 30px;
+	}
+	#author {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+	#penguin {
+		padding: 5px;
+		padding-top: 0px;
+	}
+	#comments {
+		margin-bottom: 30px;
+		margin-top: 30px;
+	}
+	#posts {
+		margin: 30px;
+		padding: 30px;
+		margin-top: 0;
+		padding-top: 0;
+	}
 }
-
 @media screen and (max-width: 480px){
 	body {
 		font-size: 9px;
 	}
-	#menu {
-		margin-top: 10px;
-		margin-right: 10px;
-	}
 	#wrap {
 		width: auto;
 	}
-	header {
+/* index */	
+	#index-menu {
+		margin-top: 10px;
+		margin-right: 10px;
+	}
+	#index-header {
 		padding-top: 60px;
 		padding-bottom: 60px;
 	}
-	header h1{
+	#index-header h1{
 		line-height: 32px;
 		margin-bottom: 16px; 
 	}
-	header p {
+	#index-header p {
 		line-height: 16px;
 		margin-bottom: 16px;
 		opacity: 0.75;
 	}
 	.post {
-		padding: 25px;
+		padding: 15px;
 	}
 	p {
 		line-height: 24px;
 	}	
+/* post */
+	#post-home, #post-menu {
+		margin: 10px;
+	}
+	#post-header {
+		padding-top: 168px;
+
+	}
+	#title {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#post-header h1 {
+		line-height: 32px;
+	}
+	#post-header p {
+		line-height: 16px;
+		margin-bottom: 16px;
+	}
+	#post {
+		margin-left: 20px;
+		margin-right: 20px;
+		padding: 20px;
+	}
+	#author {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#comments {
+		margin-bottom: 20px;
+		margin-top: 20px;
+	}
+	#posts {
+		margin: 20px;
+		padding: 20px;
+		margin-top: 0;
+		padding-top: 0;
+	}
+	#next, #prev {
+		clear: both;
+		padding: 0;
+		width: 100%
+	}
+	#prev:after {
+		border-bottom: 1px solid #E1E4E5;
+		content: " ";
+		display: block;
+		position: relative;
+		clear: both;
+	}
+	#prev {
+		border: none;
+	}
 }
 @media screen and (max-width: 320px){
 	body {
 		font-size: 7px;
 	}
-	#menu {
-		margin-top: 7px;
-		margin-right: 7px;
-	}
 	#wrap {
 		width: auto;
 	}
-	header {
+/* index */
+	#index-menu {
+		margin-top: 7px;
+		margin-right: 7px;
+	}
+	#index-header {
 		padding-top: 40px;
 		padding-bottom: 40px;
 	}
@@ -187,4 +436,49 @@ p {
 	.post:before {
 		bottom: 25px;
 	}
+/* post */
+	#post-home, #post-menu {
+		margin: 5px;
+	}
+	#post-header {
+		padding-top: 130px;
+
+	}
+	#title {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#post-header h1 {
+		line-height: 25px;
+	}
+	#post-header p {
+		line-height: 10px;
+		margin-bottom: 10px;
+	}
+	#post {
+		margin-left: 10px;
+		margin-right: 10px;
+		padding: 10px;
+	}
+	p {
+		line-height: 15px;
+	}
+	#author {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#comments {
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	#posts {
+		margin: 10px;
+		padding: 10px;
+		margin-top: 0;
+		padding-top: 0;
+	}	
 }
