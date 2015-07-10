@@ -8,7 +8,7 @@
 		<a href="http://localhost:3000/posts/{{_id}}" id="index-a">
 			<h2>{{title}}</h2>
 		</a>
-		<p id="post-meta">{{date}}</p>
+		<p id="post-meta">{{datum date}}</p>
 		<p>{{truncate content}}</p>
 	</div>
 	{{else}}
@@ -16,7 +16,7 @@
 {{/each}}
 {{#if post}}
 	<div id="footer">
-		<a id="oldpost" href="">Older Posts</a>
-		<p>Page of </p>
+		<a id="oldpost" href="http://localhost:3000/{{page}}">Older Posts</a>
+		<p>Page {{page}} of {{all}}</p>
 	</div>
 {{/if}}

@@ -2,30 +2,40 @@
 <a  id="post-menu" href="">Menu</a>
 <header id="post-header">
 	<div id="post-title">
-		<h1>{{title}}</h1>
-		<p>{{author}} | {{date}}</p>
+		<h1>{{post.title}}</h1>
+		<p>{{post.author}} | {{datum post.date}}</p>
 	</div>
 </header>
 <div id="post">
-	<p class="content">{{content}}</p>
+	<p class="content">{{post.content}}</p>
 </div>
 <div id="author">
 	<img src="/images/penguin.png" id="penguin" />
-	<h2>{{author}}</h2>
+	<h2>{{post.author}}</h2>
 	<p></p>
 </div>
-<button id="comments">Show comments</button>
+<div id="comment">
+	<a href="http://localhost:3000/{{post._id}}/comments" id="comments">Show comments</a>
+</div>
 <div id="posts">
-	<div id="prev">
-		<a href="">
-			<h3></h3>
-			<p></p>
-		</a>
-	</div>
 	<div id="next">
-		<a href="">
-			<h3></h3>
-			<p></p>
-		</a>
+		{{#if next}}
+			<a href="http://localhost:3000/posts/{{next._id}}">
+				<h3>{{next.title}}</h3>
+				<p>{{truncate next.content}}</p>
+			</a>
+		{{else}}
+			<p>There is no next post!</p>
+		{{/if}}
+	</div>
+	<div id="prev">
+		{{#if prev}}
+			<a href="http://localhost:3000/posts/{{prev._id}}">
+				<h3>{{prev.title}}</h3>
+				<p>{{truncate prev.content}}</p>
+			</a>
+		{{else}}
+			<p>Theres is no previous post!</p>
+		{{/if}}
 	</div>
 </div>

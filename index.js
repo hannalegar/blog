@@ -30,29 +30,83 @@ db.once('open', function(){
 	console.log('DB connection is up');
 });
 
-app.get('/', function (req, res) {
+app.get('/:page?', function (req, res) {
+	var	skip = 0, limit = 3, page = req.params.page, all;
+	if (page) {
+		page = page - 0;
+		skip = page * limit;		
+	} else {
+		page = 0;
+	}
+	Post.count( {}, function (err, count){
+		if (err) {
+			console.log(err);
+		} else {
+			all = count / limit;
+		}
+	})
 	Post.find(function (err, posts){
 		if (err) {
 			res.send(err);
 		} else {
 			res.render('index', {
 				post: posts,
+				page: page + 1,
+				all: all, 
 				helpers: {
 					truncate: function (text) {
-						return text.substring(0, 100)+'...';
+						return  text.split(' ').slice(0, 50).join(' ') + '...'
+					},
+					datum: function (d) {
+						if(!d) { return ''; }
+						return d.toString().substring(0,3) + ' ' + d.getDate() + ' ' + d.getMonth() + ' ' + d.getFullYear();
 					}
 				}				
 			});
 		}
-	}).limit(3);
+	}).limit(limit).skip(skip).sort({date:-1});
 });
 
 app.get('/posts/:post_id', function (req, res) {
-	Post.findOne({ _id : req.params.post_id }, function (err, post){
+	var promise, post, next, prev,
+		post_id = req.params.post_id;
+	
+	promise = Post.findOne({ _id : req.params.post_id }).sort({ _id: -1 }).limit(1).exec();
+	
+	promise.then(function (foundPost) {		
+		console.log('post found');
+		post = foundPost;
+		return Post.findOne({ _id: { $gt: post_id }}).sort({ _id: 1 }).exec();	
+	}).then(function (nextFound) {
+		next = nextFound;
+		console.log('next found');
+		return Post.findOne({ _id: { $lt: post_id }}).sort({ _id: -1 }).exec(); 
+	}).then(function (prevFound) {
+		prev = prevFound;
+		console.log('prev found');
+		//console.log(post, next, prevFound);
+	}).then(function (err, foundPost, nextFound, prevFound){
 		if (err) {
-			res.send('Nincs ilyen post!');
+			console.log(err);
 		} else {
-			res.render('post', post);
+			console.log(post, next, prev);
+			res.render('post', {			
+				post: post,
+				next: next,
+				prev: prev,
+				helpers: {
+					datum: function (d) {
+						if(!d) { return ''; }
+						return d.toString().substring(0,3)+' '+d.getDate()+' '+d.getMonth()+' '+d.getFullYear();
+					},
+					truncate: function (text) {
+						if (text.length < 100) {
+							return text;
+						} 
+						return  text.split(' ').slice(0, 20).join(' ') + '...';
+					}
+				}
+			})
 		}
 	})
 });
@@ -62,10 +116,12 @@ app.get('/posts/:post_id/comments', function (req, res) {
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
-			res.render('post');
+			res.render('comment', {
+				comment: comment,
+			})
 		}
 	})
-});
+}); 
 
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {

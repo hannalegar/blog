@@ -195,17 +195,20 @@ p {
 	position: relative;
 	clear: both;
 }
+#comment {
+	padding-left: 40px;
+	padding-right: 40px;
+	margin: 40px;
+}
 #comments {
 	border-radius: 30px;
-	padding: 5px;
-	background-color: white;
+	border: 1px solid #E1E4E5;
 	color: #E1E4E5;
+	padding: 10px;
+	text-decoration: none;
+	width: 120px;
 	display: block;
 	margin: 0 auto;
-	padding: 10px;
-	margin-bottom: 40px;
-	margin-top: 40px;
-	clear: both;
 }
 #posts {
 	margin: 40px;
@@ -231,11 +234,11 @@ h3 {
 	padding-top: 20px;
 	padding-bottom: 50px;
 }
-#prev {
+#next {
 	border-right: 1px solid #E1E4E5;
 	padding-right: 5%;
 }
-#next {
+#prev {
 	padding-left: 15px;
 }
 @media screen and (max-width: 960px){
@@ -314,9 +317,13 @@ h3 {
 		padding: 5px;
 		padding-top: 0px;
 	}
-	#comments {
-		margin-bottom: 30px;
-		margin-top: 30px;
+	#comment {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin: 30px;
+	}
+	#comments{
+		width: 90px;
 	}
 	#posts {
 		margin: 30px;
@@ -388,9 +395,13 @@ h3 {
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-	#comments {
-		margin-bottom: 20px;
-		margin-top: 20px;
+	#comment {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin: 20px;
+	}
+	#comments{
+		width: 70px;
 	}
 	#posts {
 		margin: 20px;
@@ -403,14 +414,14 @@ h3 {
 		padding: 0;
 		width: 100%
 	}
-	#prev:after {
+	#next:after {
 		border-bottom: 1px solid #E1E4E5;
 		content: " ";
 		display: block;
 		position: relative;
 		clear: both;
 	}
-	#prev {
+	#next {
 		border: none;
 	}
 }
@@ -471,9 +482,13 @@ h3 {
 		margin-left: 10px;
 		margin-right: 10px;
 	}
-	#comments {
-		margin-bottom: 10px;
-		margin-top: 10px;
+	#comment {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin: 10px;
+	}
+	#comments{
+		width: 55px;
 	}
 	#posts {
 		margin: 10px;
