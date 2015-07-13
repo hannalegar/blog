@@ -68,7 +68,7 @@ app.get('/:page?', function (req, res) {
 });
 
 app.get('/posts/:post_id', function (req, res) {
-	var promise, post, next, prev,
+	var promise, post, next, prev, comment,
 		post_id = req.params.post_id;
 	
 	promise = Post.findOne({ _id : req.params.post_id }).sort({ _id: -1 }).limit(1).exec();
@@ -85,15 +85,20 @@ app.get('/posts/:post_id', function (req, res) {
 		prev = prevFound;
 		console.log('prev found');
 		//console.log(post, next, prevFound);
-	}).then(function (err, foundPost, nextFound, prevFound){
+		return Comment.find({ post_id : req.params.post_id }).sort({ date : 1});
+	}).then (function (comments){
+		comment = comments;
+		console.log('comments found');
+	}).then(function (err, foundPost, nextFound, prevFound, comments){
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(post, next, prev);
+			console.log(post, next, prev, comment);
 			res.render('post', {			
 				post: post,
 				next: next,
 				prev: prev,
+				comment: comment,
 				helpers: {
 					datum: function (d) {
 						if(!d) { return ''; }
@@ -110,7 +115,7 @@ app.get('/posts/:post_id', function (req, res) {
 		}
 	})
 });
-
+/*
 app.get('/posts/:post_id/comments', function (req, res) {
 	Comment.find({ post_id : req.params.post_id }, function (err, comment){
 		if (err) {
@@ -122,7 +127,7 @@ app.get('/posts/:post_id/comments', function (req, res) {
 		}
 	})
 }); 
-
+*/
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
@@ -175,7 +180,7 @@ app.post('/posts/:post_id/comments', function (req, res) {
 			}
 			res.send(errmessage);
 		} else {
-			res.send(comment);
+			res.render('post');
 		}	
 	}) 
 });

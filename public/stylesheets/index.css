@@ -188,7 +188,7 @@ p {
 	width: 80%;
 	margin: 0;
 }
-#post:after, #author:after, #posts:before, #posts:after {
+#post:after, #author:after, #posts:before, #posts:after, #comments h3:before {
 	border-bottom: 1px solid #E1E4E5;
 	content: " ";
 	display: block;
@@ -199,14 +199,35 @@ p {
 	padding-left: 40px;
 	padding-right: 40px;
 	margin: 40px;
+	font-family: 'Fira sans', sans-serif;
 }
-#comments {
+#show-comments {
+	font-size: 0.8em;
 	border-radius: 30px;
 	border: 1px solid #E1E4E5;
 	color: #E1E4E5;
 	padding: 10px;
 	text-decoration: none;
 	width: 120px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+}
+#comments, #invalid-a, #invalid-c {
+	display: none;
+}
+#comments p{
+	font-size: 1em;
+}
+#invalid-a, #invalid-c {
+	font-weight: bold;
+}
+#submit {
+	border-radius: 30px;
+	border: 1px solid #E1E4E5;
+	color: #E1E4E5;
+	padding: 10px;
+	background-color: white;
 	display: block;
 	margin: 0 auto;
 }

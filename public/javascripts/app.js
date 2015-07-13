@@ -1,3 +1,0 @@
-$('#comments').on("click", function() { 
-	
-});

@@ -15,7 +15,25 @@
 	<p></p>
 </div>
 <div id="comment">
-	<a href="http://localhost:3000/{{post._id}}/comments" id="comments">Show comments</a>
+	<button id="show-comments">Show comments</button>
+	<div id="comments">
+		{{#each comment}}
+			<p>{{content}}</p>
+			<h4>{{author}} | {{datum date}}</h4>		
+			{{else}}
+			<p>There are no comments!</p>
+		{{/each}}
+		<form action="/posts/{{post._id}}/comments" method="post" id="post-comment">
+			<h3>Add comment</h3>
+			<p id="comment-a">Author</p>
+			<input type="text" name="c-author" id="c-author"><br>
+			<p id="invalid-a">Nincs megadva szerző!</p>
+			<p id="comment-c">Content</p>
+			<textarea  name="content" id="content"></textarea><br>
+			<p id="invalid-c">Nincs megadva tartalom!</p>
+			<input type="submit" value="Submit" id="submit">
+		</form>
+	</div>
 </div>
 <div id="posts">
 	<div id="next">
