@@ -22,6 +22,7 @@ body {
 	margin-top: 20px;
 	margin-right: 20px;
 }
+/* header */
 #index-header {
 	padding-top: 120px;
 	padding-bottom: 120px;
@@ -43,6 +44,7 @@ body {
 	text-align: center;
 	margin-top: 0;
 }
+/* post */
 .post {
 	padding: 30px;
 	margin-top: 30px;
@@ -77,6 +79,7 @@ p {
 	font-family: 'Cardo', serif;
 	font-size: 1.25em;
 }
+/* footer */
 #footer {
 	margin: 30px;
 }
@@ -119,6 +122,7 @@ p {
 #post-menu {
 	float: right;
 }
+/* header */
 #post-header{
 	background-image: url("../images/quackey-teaser.png"); 
 	background-repeat: no-repeat;
@@ -150,6 +154,7 @@ p {
 	margin-bottom: 20px;
 	opacity: 0.75;
 }
+/* post */
 #post {
 	padding: 40px;
 	margin-left: 40px;
@@ -160,6 +165,7 @@ p {
 	font-size: 1.25em;
 	line-height: 30px;
 }
+/* author */
 #author{
 	display: block;
 	font-family: 'Fira sans', sans-serif;
@@ -195,6 +201,7 @@ p {
 	position: relative;
 	clear: both;
 }
+/* comments */
 #comment {
 	padding-left: 40px;
 	padding-right: 40px;
@@ -213,14 +220,41 @@ p {
 	margin: 0 auto;
 	background-color: white;
 }
-#comments, #invalid-a, #invalid-c {
+#comments,  hide{
 	display: none;
 }
 #comments p{
 	font-size: 1em;
 }
 #invalid-a, #invalid-c {
+	display: none;
+	color: red;
+}
+#c-author, #content {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	padding: 10px;
+	width: 98%;
+	font-size: 1em;
+}
+#invalid-a, #invalid-c {
 	font-weight: bold;
+}
+#comments-list p {
+	float: left;
+	width: 40%;
+}
+#comments-list h4 {
+	clear: both;
+}
+.delete {
+	border-radius: 30px;
+	border: 1px solid #E1E4E5;
+	color: #E1E4E5;
+	padding: 10px;
+	background-color: white;
+	float: right;
+	text-decoration: none;
 }
 #submit {
 	border-radius: 30px;
@@ -231,6 +265,7 @@ p {
 	display: block;
 	margin: 0 auto;
 }
+/* prev, next */
 #posts {
 	margin: 40px;
 	padding: 40px;
@@ -343,8 +378,13 @@ h3 {
 		padding-right: 30px;
 		margin: 30px;
 	}
-	#comments{
+	#show-comments{
 		width: 90px;
+		padding: 8px;
+	}
+	#c-author, #content {
+		width: 95%;
+		padding: 7,5px;
 	}
 	#posts {
 		margin: 30px;
@@ -421,8 +461,12 @@ h3 {
 		padding-right: 20px;
 		margin: 20px;
 	}
-	#comments{
+	#show-comments{
 		width: 70px;
+		padding: 5px;
+	}
+	#c-author, #content {
+		width: 93%;
 	}
 	#posts {
 		margin: 20px;
@@ -508,8 +552,9 @@ h3 {
 		padding-right: 10px;
 		margin: 10px;
 	}
-	#comments{
+	#show-comments{
 		width: 55px;
+		padding: 2,5px;
 	}
 	#posts {
 		margin: 10px;

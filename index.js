@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var express = require('express');
 var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
 var app = express();
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded());
 app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
@@ -115,19 +117,20 @@ app.get('/posts/:post_id', function (req, res) {
 		}
 	})
 });
-/*
+
 app.get('/posts/:post_id/comments', function (req, res) {
 	Comment.find({ post_id : req.params.post_id }, function (err, comment){
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
-			res.render('comment', {
-				comment: comment,
-			})
+			console.log('render comments');
+			// res.render('comment', {
+			// 	comment: comment,
+			// })
 		}
 	})
 }); 
-*/
+
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
@@ -149,7 +152,7 @@ app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
 });
 
 app.post('/', function (req, res) {		
-	Post.create({ title : req.query.title, author : req.query.author, content : req.query.content }, function (err, post){
+	Post.create({ title : req.body.title, author : req.body.author, content : req.body.content }, function (err, post){
 		var errmessage = {};
 		if (err) {
 			if (err.errors.title) {
@@ -169,7 +172,7 @@ app.post('/', function (req, res) {
 });
 
 app.post('/posts/:post_id/comments', function (req, res) {
-	Comment.create({ author : req.query.author, content : req.query.content, post_id : req.params.post_id }, function (err, comment){
+	Comment.create({ author : req.body.author, content : req.body.content, post_id : req.params.post_id }, function (err, comment){
 		var errmessage = {};
 		if (err) {
 			if (err.errors.content){
@@ -180,18 +183,18 @@ app.post('/posts/:post_id/comments', function (req, res) {
 			}
 			res.send(errmessage);
 		} else {
-			res.render('post');
+			res.send(comment);
 		}	
 	}) 
 });
 
 app.put('/posts/:post_id', function (req, res) {
 	var data = {};
-	if (req.query.content !== undefined) {
-		data.content = req.query.content;
+	if (req.body.content !== undefined) {
+		data.content = req.body.content;
 	}
-	if (req.query.title !== undefined) {
-		data.title = req.query.title;
+	if (req.body.title !== undefined) {
+		data.title = req.body.title;
 	}
 	Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
 		if (err) {
@@ -203,8 +206,8 @@ app.put('/posts/:post_id', function (req, res) {
 });
 
 app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
-	if (req.query.content !== undefined) {
-		Post.content = req.query.content;
+	if (req.body.content !== undefined) {
+		Post.content = req.body.content;
 	}
 	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, Post.content, function (err, comment){
 		if (err) {

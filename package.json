@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.13.0",
     "express-handlebars": "^2.0.1",
+    "body-parser": "^1.13.2",
     "mongoose": "^4.0.6"
   }
 }

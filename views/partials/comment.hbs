@@ -1,5 +1,9 @@
-
 {{#each comment}}
-	<p>{{content}}</p>
-	<h5>{{author}} | {{date}}</h5>
+	<div class="comment-item">
+		<a href="/posts/{{post_id}}/comments/{{_id}}" class="delete">Delete comment</a>
+		<p>{{content}}</p>
+		<h4>{{author}} | {{datum date}}</h4>
+	</div>
+	{{else}}
+		<p id="no-c">There are no comments!</p>
 {{/each}}

@@ -17,21 +17,18 @@
 <div id="comment">
 	<button id="show-comments">Show comments</button>
 	<div id="comments">
-		{{#each comment}}
-			<p>{{content}}</p>
-			<h4>{{author}} | {{datum date}}</h4>		
-			{{else}}
-			<p>There are no comments!</p>
-		{{/each}}
+		<div id="comments-list">{{> comment}}</div>
 		<form action="/posts/{{post._id}}/comments" method="post" id="post-comment">
-			<h3>Add comment</h3>
-			<p id="comment-a">Author</p>
-			<input type="text" name="c-author" id="c-author"><br>
-			<p id="invalid-a">Nincs megadva szerző!</p>
-			<p id="comment-c">Content</p>
-			<textarea  name="content" id="content"></textarea><br>
-			<p id="invalid-c">Nincs megadva tartalom!</p>
-			<input type="submit" value="Submit" id="submit">
+			<div id="hide">
+				<h3>Add comment</h3>
+				<p id="comment-a">Author</p>
+				<input type="text" name="c-author" id="c-author">
+				<p id="invalid-a"></p>
+				<p id="comment-c">Content</p>
+				<textarea name="content" id="content"></textarea>
+				<p id="invalid-c"></p>
+				<input type="submit" value="Submit" id="submit">
+			</div>
 		</form>
 	</div>
 </div>
