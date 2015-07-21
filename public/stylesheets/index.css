@@ -22,6 +22,18 @@ body {
 	margin-top: 20px;
 	margin-right: 20px;
 }
+#add-post {
+	text-decoration: none;
+	padding: 10px;
+	border: 1px solid #E1E4E5;
+	color: #E1E4E5;
+	border-radius: 30px;
+	font-size: 1em;
+	float: right;
+	margin-top: 20px;
+	margin-right: 5px;
+	display: none;
+}
 /* header */
 #index-header {
 	padding-top: 120px;
@@ -74,10 +86,23 @@ h2 {
 	line-height: 19px;
 	opacity: 0.5;
 	margin-bottom: 20px;
+	float: left;
+	width: 50%;
 }
 p {
 	font-family: 'Cardo', serif;
 	font-size: 1.25em;
+	clear: both;
+}
+.edit-post {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1.5 em;
+	text-decoration: none;
+	color: #E1E4E5;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	padding: 10px;
+	float: right;
 }
 /* footer */
 #footer {
@@ -105,7 +130,7 @@ p {
 	margin-top: 5px;
 }
 /* post */
-#post-home, #post-menu {
+#post-home, #post-menu, #edit-post, #delete-post {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 1em;
 	text-decoration: none;
@@ -121,6 +146,18 @@ p {
 }
 #post-menu {
 	float: right;
+	margin-left: 0;
+}
+#m {
+	margin-top: 30px;
+	float: right;
+	display: none;
+}
+#delete-pos {
+	margin-left: 25px;
+}
+#edit-post {
+	margin-left: 38px;
 }
 /* header */
 #post-header{
@@ -164,6 +201,34 @@ p {
 	font-family: 'Cardo', serif;
 	font-size: 1.25em;
 	line-height: 30px;
+}
+/* edit form */
+#edit-p {
+	display: none;
+}
+#edit-p p{
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+#edit-title, #postedit-content {
+	border: 1px solid #E1E4E5;
+	border-radius: 35px;
+	width: 100%;
+	padding: 10px;
+}
+#postedit-content {
+	height: 200px;
+}
+#postedit-submit {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+	padding: 10px;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1em; 
 }
 /* author */
 #author{
@@ -230,7 +295,7 @@ p {
 	display: none;
 	color: red;
 }
-#c-author, #content {
+#c-author, #add-content, #e-content {
 	border: 1px solid #E1E4E5;
 	border-radius: 30px;
 	padding: 10px;
@@ -252,11 +317,25 @@ p {
 	border: 1px solid #E1E4E5;
 	color: #E1E4E5;
 	padding: 10px;
-	background-color: white;
 	float: right;
 	text-decoration: none;
 }
-#submit {
+.edit {
+	border-radius: 30px;
+	border: 1px solid #E1E4E5;
+	color: #E1E4E5;
+	padding: 10px;
+	text-decoration: none;
+	float: right;	
+}
+#edit-c, #post-comment {
+	margin: 0;
+	padding: 0;
+}
+#edit-comment {
+	display: none;
+}
+#add-submit, #edit-submit {
 	border-radius: 30px;
 	border: 1px solid #E1E4E5;
 	color: #E1E4E5;
@@ -296,6 +375,48 @@ h3 {
 }
 #prev {
 	padding-left: 15px;
+}
+/* new */
+#new h1 {
+	font-weight: bold;
+	padding: 40px;
+	margin: 40px;
+	text-align: center;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 2.5em;
+}
+#new h1:after {
+	border-bottom: 1px solid #E1E4E5;
+	content: " ";
+	display: block;
+	position: relative;
+	bottom: -80px;
+}
+form {
+	padding: 40px;
+	margin: 40px;
+	font-family: 'Fira sans', sans-serif;
+}
+#n-author, #n-title, #n-content {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	width: 100%;
+	padding: 15px;
+}
+#new-submit {
+	color: #E1E4E5;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+	font-size: 1.2em;
+	padding: 10px;
+}
+#invalid-nauthor, #invalid-ntitle, #invalid-ncontent{
+	font-size: 1.5em;
+	color: red;
+	font-weight: bold;
 }
 @media screen and (max-width: 960px){
 	#wrap {

@@ -1,14 +1,37 @@
 <a href="http://localhost:3000" id="post-home">Home</a>
-<a  id="post-menu" href="">Menu</a>
-<header id="post-header">
+<a id="post-menu" href="">Menu</a>
+<div id="m">
+<a id="edit-post" href="http://localhost:3000/posts/{{post._id}}">Edit post</a></br>
+<p></p>
+<a id="delete-post" href="http://localhost:3000/posts/{{post._id}}">Delete post</a>
+</div>
+
+{{#if post.file}}
+	<header id="post-header" style="background-image: url('../images/user/{{post.file}}')">
 	<div id="post-title">
 		<h1>{{post.title}}</h1>
 		<p>{{post.author}} | {{datum post.date}}</p>
 	</div>
 </header>
+	{{else}}
+<header id="post-header" >
+	<div id="post-title">
+		<h1>{{post.title}}</h1>
+		<p>{{post.author}} | {{datum post.date}}</p>
+	</div>
+</header>
+{{/if}}
+
 <div id="post">
 	<p class="content">{{post.content}}</p>
 </div>
+<form action="http://localhost:3000/posts/{{post._id}}", id="edit-p">
+		<p>Title</p>
+		<input type="text" name="edit-title" id="edit-title" value="{{post.title}}">
+		<p>Content</p>
+		<textarea name="edit-content" id="postedit-content" >{{post.content}}</textarea>
+		<input type="submit" value="Submit" id="postedit-submit">
+	</form>
 <div id="author">
 	<img src="/images/penguin.png" id="penguin" />
 	<h2>{{post.author}}</h2>
@@ -18,18 +41,29 @@
 	<button id="show-comments">Show comments</button>
 	<div id="comments">
 		<div id="comments-list">{{> comment}}</div>
-		<form action="/posts/{{post._id}}/comments" method="post" id="post-comment">
-			<div id="hide">
-				<h3>Add comment</h3>
-				<p id="comment-a">Author</p>
-				<input type="text" name="c-author" id="c-author">
-				<p id="invalid-a"></p>
-				<p id="comment-c">Content</p>
-				<textarea name="content" id="content"></textarea>
-				<p id="invalid-c"></p>
-				<input type="submit" value="Submit" id="submit">
-			</div>
-		</form>
+		<div id="add-comment">
+			<form action="/posts/{{post._id}}/comments" method="post" id="post-comment">
+				<div id="hide">
+					<h3>Add comment</h3>
+					<p id="comment-a">Author</p>
+					<input type="text" name="c-author" id="c-author">
+					<p id="invalid-a"></p>
+					<p id="comment-c">Content</p>
+					<textarea name="content" id="add-content"></textarea>
+					<p id="invalid-c"></p>
+					<input type="submit" value="Submit" id="add-submit">
+				</div>
+			</form>
+		</div>
+		<div id="edit-comment">
+			<form action="http://localhost:3000/posts/{{post._id}}/comments/{{comment._id}}" id="edit-c">
+				<h3>Edit comment</h3>
+				<p id="edit-content">Content</p>
+				<textarea name="content" id="e-content"></textarea>
+				<p id="invalid-edit"></p>
+				<input type="submit" value="Submit" id="edit-submit">
+			</form>
+		</div>
 	</div>
 </div>
 <div id="posts">
