@@ -1,7 +1,12 @@
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var cookieParser = require('cookie-parser');
 var express = require('express');
 var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
 var multer = require('multer');
+
 var upload = multer({storage: multer.diskStorage({
 		destination: function(req, file, cb) {
 			cb(null, './public/images/user/');
@@ -18,15 +23,28 @@ var upload = multer({storage: multer.diskStorage({
 		}
 	}
 });	
-	
-var bodyParser = require('body-parser');
+
 var app = express();
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
+
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 var postSchema = mongoose.Schema({
 	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
@@ -35,6 +53,7 @@ var postSchema = mongoose.Schema({
 	file: {type: String },
 	date: { type: Date, default: Date.now }
 });
+
 var commentSchema = mongoose.Schema({
 	author: { type: String, required: 'Nincs megadva szerző!' },
 	content: { type: String, required: 'Nincsen tartalom!' },
@@ -52,11 +71,28 @@ db.once('open', function(){
 	console.log('DB connection is up');
 });
 
+app.post('/register', function(req, res) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+            console.log(err);
+			//return res.render('register', { account : account });
+        }
+
+        passport.authenticate('local')(req, res, function () {
+            console.log('sgh');
+			//res.redirect('/');
+        });
+    });
+});
+
 app.get('/:page?', function (req, res) {
 	var	skip = 0, limit = 3, page = req.params.page, all;
 	
 	if (page === 'new') {
 		res.render('new');
+	}
+	if (page === 'register') {
+		res.render('reg');
 	} else {
 		if (page) {
 			page = page - 0;
