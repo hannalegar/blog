@@ -8,10 +8,10 @@ $('#show-comments').click(function () {
 
 $('#post-comment').submit(function (e) {
 	$.post(this.action, {
-		author: $('#c-author').val(),
+		author: $('#c-author').attr('data-user'),
 		content: $('#add-content').val()
 	}, function (data){
-		//console.log(data, this, data.author, data.content,  $('#c-author').val());
+		console.log(data, this, data.author, data.content,  $('#c-author').attr('data-user'));
 		var source, template;
 		if (!data._id) {
 			//error ag
@@ -110,7 +110,7 @@ $('#new-post').submit(function (e) {
 		data.append('file', value);
 	});
 	
-	data.append('author', $('#n-author').val());
+	data.append('author', $('#n-author').attr('data-user'));
 	data.append('title', $('#n-title').val());
 	data.append('content', $('#n-content').val());
 	

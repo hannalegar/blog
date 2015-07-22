@@ -128,9 +128,9 @@ app.get('/:page?', function (req, res) {
 	var	skip = 0, limit = 3, page = req.params.page, all;
 	
 	if (page === 'new') {
-		res.render('new');
+		res.render('new', { user : req.user});
 	}
-	if (page === 'register') {
+	else if (page === 'register') {
 		res.render('reg');
 	} else {
 		if (page) {

@@ -2,8 +2,7 @@
 	<h1>Add new Post</h1>
 	<form action="/" method="post" enctype="multipart/form-data" id="new-post">
 		<p id="new-a">Author</p>
-			<input type="text" name="author" id="n-author">
-			<p id="invalid-nauthor"></p>
+			<p id="n-author" data-user="{{user.username}}">{{user.username}}</p>
 		<p id="new-t">Title</p>
 			<input type="text" name="title" id="n-title">
 			<p id="invalid-ntitle"></p>
