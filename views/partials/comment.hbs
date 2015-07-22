@@ -1,8 +1,11 @@
+{{user.username}}
 {{#each comment}}
 	<div class="comment-item" id="comment-{{_id}}">
 		<p>{{content}}</p>
-		<a href="/posts/{{post_id}}/comments/{{_id}}" class="delete">Delete</a>
-		<a href="/posts/{{post_id}}/comments/{{_id}}" class="edit">Edit</a>
+		{{#if ../user}}
+			<a href="/posts/{{post_id}}/comments/{{_id}}" class="delete">Delete</a>
+			<a href="/posts/{{post_id}}/comments/{{_id}}" class="edit">Edit</a>
+		{{/if}}
 		<h4>{{author}} | {{datum date}}</h4>
 	</div>
 	{{else}}

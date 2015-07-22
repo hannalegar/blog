@@ -1,11 +1,15 @@
 <a href="http://localhost:3000" id="post-home">Home</a>
 <a id="post-menu" href="">Menu</a>
 <div id="m">
-<a id="edit-post" href="http://localhost:3000/posts/{{post._id}}">Edit post</a></br>
-<p></p>
-<a id="delete-post" href="http://localhost:3000/posts/{{post._id}}">Delete post</a>
+{{#if user}}
+	<a id="edit-post" href="http://localhost:3000/posts/{{post._id}}">Edit post</a><p></p>
+	<a id="delete-post" href="http://localhost:3000/posts/{{post._id}}">Delete post</a><p></p>
+	<a id="logout" href="http://localhost:3000/logout" style="margin-top: -10px; margin-rigth: 22px;">Logout</a>
+{{else}}
+	<a id="login-button" href="http://localhost:3000/login" style="margin-top: -8px">Login</a><p></p>
+	<a id="registration" href="http://localhost:3000/register" style="margin-top: -15px; margin-right: 8px;">Registration</a><p></p>
+{{/if}}
 </div>
-
 {{#if post.file}}
 	<header id="post-header" style="background-image: url('../images/user/{{post.file}}')">
 	<div id="post-title">
@@ -41,6 +45,7 @@
 	<button id="show-comments">Show comments</button>
 	<div id="comments">
 		<div id="comments-list">{{> comment}}</div>
+		{{#if user}}
 		<div id="add-comment">
 			<form action="/posts/{{post._id}}/comments" method="post" id="post-comment">
 				<div id="hide">
@@ -55,6 +60,7 @@
 				</div>
 			</form>
 		</div>
+		{{/if}}
 		<div id="edit-comment">
 			<form action="http://localhost:3000/posts/{{post._id}}/comments/{{comment._id}}" id="edit-c">
 				<h3>Edit comment</h3>

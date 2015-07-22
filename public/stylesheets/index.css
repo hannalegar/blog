@@ -46,6 +46,30 @@ body {
 	margin-top: -15px;
 	margin-right: 88px;
 }
+#login-button {
+	text-decoration: none;
+	display: none;
+	padding: 10px;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	color: #E1E4E5;
+	font-size: 1em;
+	float: right;
+	margin-top: 20px;
+	margin-right: 8px;
+}
+#logout {
+	display: none;
+	text-decoration: none;
+	padding: 10px;
+	font-size: 1em;
+	color: #E1E4E5;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	float: right;
+	margin-top: -15px;
+	margin-right: 88px;
+}
 /* header */
 #index-header {
 	padding-top: 120px;
@@ -389,7 +413,7 @@ h3 {
 	padding-left: 15px;
 }
 /* new */
-#new h1, #reg h1 {
+#new h1, #reg h1, #login h1 {
 	font-weight: bold;
 	padding: 40px;
 	margin: 40px;
@@ -397,7 +421,7 @@ h3 {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 2.5em;
 }
-#new h1:after, #reg h1:after {
+#new h1:after, #reg h1:after, #login h1:after {
 	border-bottom: 1px solid #E1E4E5;
 	content: " ";
 	display: block;
@@ -430,16 +454,21 @@ form {
 	color: red;
 	font-weight: bold;
 }
-/* reg */
-.r {
+/* reg, login */
+#reg-form, #login-form {
+	padding: 40px;
+	margin: 40px;
 	font-family: 'Fira sans', sans-serif;
+}
+.r {
 	font-size: 2em;
 }
-.reginput {
+.reginput, .logininput {
 	border: 1px solid #E1E4E5;
 	border-radius: 30px;
 	padding: 10px;
 	display: block;
+	width: 100%;
 }
 #invalid-username, #invalid-password {
 	direction: none;
@@ -447,10 +476,15 @@ form {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 1.5em;
 }
-#reg-submit {
-	background-clip: white;
+#reg-submit, #log-submit {
+	background-color: white;
 	border: 1px solid #E1E4E5;
 	border-radius: 30px;
+	display: block;
+	margin: 0 auto;
+	font-size: 1.5em;
+	padding: 10px;
+	
 }
 @media screen and (max-width: 960px){
 	#wrap {

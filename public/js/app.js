@@ -82,8 +82,10 @@ $('#edit-comment').on('submit', '#edit-c', function(e) {
 });
 
 $('#index-menu').click(function (e) {
-	$('#add-post').show().fadeOut(4000);
-	$('#registration').show().fadeOut(4000);
+	$('#add-post').show()/*.fadeOut(4000)*/;
+	$('#registration').show()/*.fadeOut(4000)*/;
+	$('#login-button').show()/*.fadeOut(4000)*/;
+	$('#logout').show()/*.fadeOut(4000)*/;
 	e.preventDefault();
 });
 
@@ -143,7 +145,10 @@ $('#new-post').submit(function (e) {
 });
 
 $('#post-menu').click(function (e){
-	$('#m').show().fadeOut(4000);
+	$('#m').show()/*.fadeOut(4000)*/;
+	$('#login-button').show()/*.fadeOut(4000)*/;
+	$('#registration').show()/*.fadeOut(4000)*/;
+	$('#logout').show()/*.fadeOut(4000)*/;
 	e.preventDefault();
 });
 

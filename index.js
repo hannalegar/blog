@@ -42,9 +42,28 @@ app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 var Account = require('./models/account');
+/*
+passport.serializeUser(function(user, done) {
+  done(null, Account._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  Account.findById(id, function(err, user) {
+    done(err, user);
+  });
+});*/
+
 passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+
+passport.serializeUser(Account.serializeUser(function(user, done){
+	done(null, Account._id);
+}));
+	
+passport.deserializeUser(Account.deserializeUser(function(id, done){
+	Account.findById(id, function(err, user){
+		done(err, user);
+	})
+}));
 
 var postSchema = mongoose.Schema({
 	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
@@ -71,18 +90,38 @@ db.once('open', function(){
 	console.log('DB connection is up');
 });
 
+app.get('/register', function(req, res){
+	res.render('reg', {});
+})
+
 app.post('/register', function(req, res) {
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
             console.log(err);
-			//return res.render('register', { account : account });
+			return res.render('reg', { account : account });
         }
-
         passport.authenticate('local')(req, res, function () {
-            console.log('sgh');
-			//res.redirect('/');
+            console.log('success', account);
+			res.redirect('/');
         });
     });
+});
+
+app.get('/login', function(req, res){
+	console.log('login', { user : req.user});
+	res.render('login', { user : req.user});
+});
+
+app.post('/login', passport.authenticate('local'), function(req, res) {
+    console.log('login', { user : req.user});
+	console.log('success login');
+	res.redirect('/');
+});
+
+app.get('/logout', function(req, res) {
+    console.log('logout');
+	req.logout();
+    res.redirect('/');
 });
 
 app.get('/:page?', function (req, res) {
@@ -111,10 +150,12 @@ app.get('/:page?', function (req, res) {
 			if (err) {
 				res.send(err);
 			} else {
+				console.log({ user : req.user});
 				res.render('index', {
 					post: posts,
 					page: page + 1,
 					all: all, 
+					user: req.user,
 					helpers: {
 						truncate: function (text) {
 							if (text.length < 100) {
@@ -159,12 +200,13 @@ app.get('/posts/:post_id', function (req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(post, next, prev, comment);
+			console.log(post, next, prev, comment, { user : req.user});
 			res.render('post', {			
 				post: post,
 				next: next,
 				prev: prev,
 				comment: comment,
+				user: req.user,
 				helpers: {
 					datum: function (d) {
 						if(!d) { return ''; }
