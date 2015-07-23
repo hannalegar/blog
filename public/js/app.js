@@ -7,29 +7,27 @@ $('#show-comments').click(function () {
 });
 
 $('#post-comment').submit(function (e) {
-	$.post(this.action, {
-		author: $('#c-author').attr('data-user'),
-		content: $('#add-content').val()
-	}, function (data){
-		console.log(data, this, data.author, data.content,  $('#c-author').attr('data-user'));
-		var source, template;
-		if (!data._id) {
-			//error ag
-			if (data.author) {
-				$('#invalid-a').text(data.author).show().fadeOut(3000);
-			}
-			if (data.content) {
-				$('#invalid-c').text(data.content).show().fadeOut(3000);
-			}
-		} else {
-			 source = '<div class="comment-item" id="comment-{{_id}}"><p>{{content}}</p><a href="/posts/{{post_id}}/comments/{{_id}}" class="delete">Delete</a><a href="/posts/{{post_id}}/comments/{{_id}}" class="edit">Edit</a><h4>{{author}} | {{datum date}}</h4></div>';
-			 template = Handlebars.compile(source);
-			 $('#no-c').remove();
-			 $('#post-comment')[0].reset();
-			 $('#comments-list').append(template(data));
-		}
-	}, 'JSON');
 	e.preventDefault();
+	$.post(this.action, {
+			author: $('#c-author').attr('data-user'),
+			content: $('#add-content').val()
+		}, function (data){
+			var source, template;
+			if (!data._id) {
+				if (data.author) {
+					$('#invalid-a').text(data.author).show().fadeOut(3000);
+				}
+				if (data.content) {
+					$('#invalid-c').text(data.content).show().fadeOut(3000);
+				}
+			} else {
+				 source = '<div class="comment-item" id="comment-{{_id}}"><p>{{content}}</p><a href="/posts/{{post_id}}/comments/{{_id}}" class="delete">Delete</a><a href="/posts/{{post_id}}/comments/{{_id}}" class="edit">Edit</a><h4>{{author}} | {{datum date}}</h4></div>';
+				 template = Handlebars.compile(source);
+				 $('#no-c').remove();
+				 $('#post-comment')[0].reset();
+				 $('#comments-list').append(template(data));
+			}
+		}, 'JSON');
 });
 
 Handlebars.registerHelper('datum', function(dat){
@@ -38,33 +36,28 @@ Handlebars.registerHelper('datum', function(dat){
 });
 
 $('#comments-list').on('click', '.delete', function(e) {
-	//console.log(this, arguments, this.href );
+	e.preventDefault();
 	$.ajax(this.href, {
 		method: 'DELETE',
 		dataType: 'json',
 		context: document.activeElement,
 		complete: function(){
-			//console.log(this, 'parent', $(this).parent()[0])
 			$(this).parent().remove();
 		}
-	})
-	e.preventDefault();
+	});
 });
 
 $('#comments-list').on('click', '.edit', function(e){
-	//debugger;
-	console.log($(this).parent().find('p'));
+	e.preventDefault();
 	$('#add-comment').hide();
-	console.log(this.href);
 	$('#edit-c').attr('action', this.href);
 	$('#edit-comment').show();
 	$('#e-content').val($(this).parent().find('p').text());
 	$('#comments-list').hide();
-	e.preventDefault();
 });
 
 $('#edit-comment').on('submit', '#edit-c', function(e) {
-	//console.log(e, this, this.action );
+	e.preventDefault();
 	$.ajax(this.action, {
 		method: 'PUT',
 		dataType: 'json',
@@ -78,19 +71,14 @@ $('#edit-comment').on('submit', '#edit-c', function(e) {
 	$('#edit-comment').hide();
 	$('#comments-list').show();
 	$('#add-comment').show();
-	e.preventDefault();
 });
 
 $('#index-menu').click(function (e) {
+	e.preventDefault();
 	$('#add-post').show()/*.fadeOut(4000)*/;
 	$('#registration').show()/*.fadeOut(4000)*/;
 	$('#login-button').show()/*.fadeOut(4000)*/;
 	$('#logout').show()/*.fadeOut(4000)*/;
-	e.preventDefault();
-});
-
-$('#add-post').click(function (e) {
-	console.log(this, this.href);
 });
 
 $('.post').on('click', '.edit-post', function(e){
@@ -104,7 +92,7 @@ $('input[type=file]').on('change', function (event){
 });
 
 $('#new-post').submit(function (e) {
-	e.preventDefault();
+	e.preventDefault();	
 	var data = new FormData();
 	$.each(files, function(key, value){
 		data.append('file', value);
@@ -141,15 +129,15 @@ $('#new-post').submit(function (e) {
 		error: function(){
 			window.location.replace("http://localhost:3000");
 		}
-	});	
+	});
 });
 
 $('#post-menu').click(function (e){
-	$('#m').show()/*.fadeOut(4000)*/;
-	$('#login-button').show()/*.fadeOut(4000)*/;
-	$('#registration').show()/*.fadeOut(4000)*/;
-	$('#logout').show()/*.fadeOut(4000)*/;
 	e.preventDefault();
+	$('#m').show()/*.fadeOut(4000)*/;
+	$('#login-button')/*.show().fadeOut(4000)*/;
+	$('#registration')/*.show().fadeOut(4000)*/;
+	$('#logout').show()/*.fadeOut(4000)*/;
 });
 
 $('#delete-post').click(function (e){
@@ -159,19 +147,20 @@ $('#delete-post').click(function (e){
 		complete: function(){
 			window.location.replace("http://localhost:3000");
 		}
-	})
+	});
 });
 
 $('#edit-post').click(function (e) {
+	e.preventDefault();
 	$('#post').hide();
 	$('#author').hide();
 	$('#comment').hide();
 	$('#posts').hide();
 	$('#edit-p').show();
-	e.preventDefault();
 });
 
 $('#edit-p').on('submit', function(e){
+	e.preventDefault();
 	$.ajax(this.action, {
 		method: 'PUT',
 		dataType: 'json',
@@ -189,5 +178,4 @@ $('#edit-p').on('submit', function(e){
 	$('#comment').show();
 	$('#posts').show();
 	$('#edit-p').hide();
-	e.preventDefault();
 });

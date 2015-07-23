@@ -1,3 +1,23 @@
+a {
+	text-decoration: none;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	color: #E1E4E5;
+	font-size: 1em;
+	padding: 10px;
+	font-family: 'Fira sans', sans-serif;
+}
+.submit {
+	color: #E1E4E5;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1em;
+	padding: 10px;
+}
 /* index */
 html,body { 
 	height: 100%;
@@ -9,63 +29,29 @@ body {
 	width: 960px;
 	margin: 0 auto;
 }
-#index-menu, #oldpost {
-	text-decoration: none;
-	padding: 10px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	border-radius: 45px;
-	font-size: 1em;
-}
 #index-menu {
 	float: right;
 	margin-top: 20px;
 	margin-right: 20px;
 }
 #add-post {
-	text-decoration: none;
-	padding: 10px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	border-radius: 30px;
-	font-size: 1em;
 	float: right;
 	margin-top: 20px;
 	margin-right: 5px;
 	display: none;
 }
 #registration {
-	text-decoration: none;
-	display: none;
-	padding: 10px;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	color: #E1E4E5;
-	font-size: 1em;
 	float: right;
 	margin-top: -15px;
 	margin-right: 88px;
 }
 #login-button {
-	text-decoration: none;
-	display: none;
-	padding: 10px;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	color: #E1E4E5;
-	font-size: 1em;
 	float: right;
 	margin-top: 20px;
 	margin-right: 8px;
 }
 #logout {
 	display: none;
-	text-decoration: none;
-	padding: 10px;
-	font-size: 1em;
-	color: #E1E4E5;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
 	float: right;
 	margin-top: -15px;
 	margin-right: 88px;
@@ -132,12 +118,6 @@ p {
 }
 .edit-post {
 	font-family: 'Fira sans', sans-serif;
-	font-size: 1.5 em;
-	text-decoration: none;
-	color: #E1E4E5;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	padding: 10px;
 	float: right;
 }
 /* footer */
@@ -167,12 +147,6 @@ p {
 }
 /* post */
 #post-home, #post-menu, #edit-post, #delete-post {
-	font-family: 'Fira sans', sans-serif;
-	font-size: 1em;
-	text-decoration: none;
-	border: 1px solid #E1E4E5;
-	border-radius: 35px;
-	padding: 10px;
 	margin: 20px;
 	color: white;
 	border-color: white;
@@ -189,28 +163,25 @@ p {
 	float: right;
 	display: none;
 }
-#delete-pos {
-	margin-left: 25px;
-}
 #edit-post {
 	margin-left: 38px;
 }
 /* header */
-#post-header{
+.post-header{
 	background-image: url("../images/quackey-teaser.png"); 
 	background-repeat: no-repeat;
 	background-size: 100%;
 	padding-top: 320px;
 	padding-bottom: 40px;
 }
-#post-title {
+.post-title {
 	margin-left: 42px;
 	margin-right: 42px;
 	padding-left: 40px;
 	padding-right: 40px; 
 	color: white;
 }
-#post-header h1 {
+.post-header h1 {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 2.5em;
 	font-weight: bold;
@@ -218,7 +189,7 @@ p {
 	margin-bottom: 0px;
 	text-indent: -1;
 }
-#post-header p {
+.post-header p {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 0.93em;
 	font-weight: bold;
@@ -226,6 +197,24 @@ p {
 	margin-top: 0;
 	margin-bottom: 20px;
 	opacity: 0.75;
+}
+#post-login-button {
+	float: right;
+	margin-top: 20px;
+	margin-right: 10px;
+}
+#post-registration{
+	float: right;
+	margin-top: 65px;
+	margin-right: -60px;
+}
+#delete-post {
+	float: right;
+	margin-top: 65px;
+	margin-right: -125px;
+}
+#edit-post {
+	float: right;
 }
 /* post */
 #post {
@@ -255,16 +244,6 @@ p {
 }
 #postedit-content {
 	height: 200px;
-}
-#postedit-submit {
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	display: block;
-	margin: 0 auto;
-	background-color: white;
-	padding: 10px;
-	font-family: 'Fira sans', sans-serif;
-	font-size: 1em; 
 }
 /* author */
 #author{
@@ -310,12 +289,12 @@ p {
 	font-family: 'Fira sans', sans-serif;
 }
 #show-comments {
-	font-size: 0.8em;
-	border-radius: 30px;
 	border: 1px solid #E1E4E5;
+	border-radius: 30px;
 	color: #E1E4E5;
+	background-color: white;
 	padding: 10px;
-	text-decoration: none;
+	font-size: 0.8em;
 	width: 120px;
 	display: block;
 	margin: 0 auto;
@@ -327,9 +306,10 @@ p {
 #comments p{
 	font-size: 1em;
 }
-#invalid-a, #invalid-c {
+#invalid-c {
 	display: none;
 	color: red;
+	font-weight: bold;
 }
 #c-author, #add-content, #e-content {
 	border: 1px solid #E1E4E5;
@@ -337,9 +317,6 @@ p {
 	padding: 10px;
 	width: 98%;
 	font-size: 1em;
-}
-#invalid-a, #invalid-c {
-	font-weight: bold;
 }
 #comments-list p {
 	float: left;
@@ -349,19 +326,9 @@ p {
 	clear: both;
 }
 .delete {
-	border-radius: 30px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	padding: 10px;
 	float: right;
-	text-decoration: none;
 }
 .edit {
-	border-radius: 30px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	padding: 10px;
-	text-decoration: none;
 	float: right;	
 }
 #edit-c, #post-comment {
@@ -370,15 +337,6 @@ p {
 }
 #edit-comment {
 	display: none;
-}
-#add-submit, #edit-submit {
-	border-radius: 30px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	padding: 10px;
-	background-color: white;
-	display: block;
-	margin: 0 auto;
 }
 /* prev, next */
 #posts {
@@ -439,16 +397,6 @@ form {
 	width: 100%;
 	padding: 15px;
 }
-#new-submit {
-	color: #E1E4E5;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	display: block;
-	margin: 0 auto;
-	background-color: white;
-	font-size: 1.2em;
-	padding: 10px;
-}
 #invalid-nauthor, #invalid-ntitle, #invalid-ncontent{
 	font-size: 1.5em;
 	color: red;
@@ -476,16 +424,6 @@ form {
 	font-family: 'Fira sans', sans-serif;
 	font-size: 1.5em;
 }
-#reg-submit, #log-submit {
-	background-color: white;
-	border: 1px solid #E1E4E5;
-	border-radius: 30px;
-	display: block;
-	margin: 0 auto;
-	font-size: 1.5em;
-	padding: 10px;
-	
-}
 @media screen and (max-width: 960px){
 	#wrap {
 		width: auto;
@@ -494,6 +432,9 @@ form {
 @media screen and (max-width: 640px) {
 	body {
 		font-size: 12px;
+	}
+	a {
+		padding: 7px;
 	}
 /* index */	
 	#index-menu {
@@ -531,20 +472,20 @@ form {
 	#post-home, #post-menu {
 		margin: 15px;
 	}
-	#post-header {
+	.post-header {
 		background-size: 100%;
 		padding-top: 224px;
 	}
-	#title {
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
 		padding-left: 30px;
 		padding-right: 30px;
 		margin-left: 30px;
 		margin-right: 30px;
 	}
-	#post-header h1{
+	.post-header h1{
 		line-height: 36px;
 	}
-	#post-header p{
+	.post-header p{
 		margin-bottom: 16px;
 	}
 	#post {
@@ -581,6 +522,38 @@ form {
 		margin-top: 0;
 		padding-top: 0;
 	}
+	/* buttons */
+	#add-post {
+		margin-top: 15px;
+		margin-right: -5px;
+	}
+	#logout {
+		margin-right: 65px;
+	}
+	#login-button {
+		margin-top: 15px;
+		margin-right: -5px;
+	}
+	#registration {
+		margin-top: -20px;
+		margin-right: 60px;
+	}
+	#post-login-button {
+		margin-top: 16px;
+		margin-right: -7px;
+	}
+	#post-registration {
+		margin-top: 50px;
+		margin-right: -57px;
+	}
+	#edit-post {
+		margin-right: -5px;
+		margin-top: 15px;
+	}
+	#delete-post {
+		margin-top: 50px;
+		margin-right: -105px;
+	}
 }
 @media screen and (max-width: 480px){
 	body {
@@ -588,6 +561,9 @@ form {
 	}
 	#wrap {
 		width: auto;
+	}
+	a {
+		padding: 5px;
 	}
 /* index */	
 	#index-menu {
@@ -617,20 +593,20 @@ form {
 	#post-home, #post-menu {
 		margin: 10px;
 	}
-	#post-header {
+	.post-header {
 		padding-top: 168px;
 
 	}
-	#title {
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
 		padding-left: 20px;
 		padding-right: 20px;
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-	#post-header h1 {
+	.post-header h1 {
 		line-height: 32px;
 	}
-	#post-header p {
+	.post-header p {
 		line-height: 16px;
 		margin-bottom: 16px;
 	}
@@ -678,6 +654,37 @@ form {
 	#next {
 		border: none;
 	}
+	/* buttons */
+	#login-button {
+		margin-top: 11px;
+		margin-right: -5px;
+	}
+	#registration {
+		margin-right: 48px;
+	}
+	#logout {
+		margin-right: 50px;
+	}
+	#add-post {
+		margin-top: 11px;
+		margin-right: -5px;
+	}
+	#post-login-button {
+		margin-right: -5px;
+		margin-top: 10px;
+	}
+	#post-registration {
+		margin-top: 35px;
+		margin-right: -45px;
+	}
+	#edit-post {
+		margin-top: 10px;
+		margin-right: -5px;
+	}
+	#delete-post {
+		margin-top: 35px;
+ 		margin-right: -85px;
+	}
 }
 @media screen and (max-width: 320px){
 	body {
@@ -685,6 +692,9 @@ form {
 	}
 	#wrap {
 		width: auto;
+	}
+	a {
+		padding: 3px;
 	}
 /* index */
 	#index-menu {
@@ -705,20 +715,20 @@ form {
 	#post-home, #post-menu {
 		margin: 5px;
 	}
-	#post-header {
+	.post-header {
 		padding-top: 130px;
 
 	}
-	#title {
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
 		padding-left: 10px;
 		padding-right: 10px;
 		margin-left: 10px;
 		margin-right: 10px;
 	}
-	#post-header h1 {
+	.post-header h1 {
 		line-height: 25px;
 	}
-	#post-header p {
+	.post-header p {
 		line-height: 10px;
 		margin-bottom: 10px;
 	}
@@ -741,7 +751,7 @@ form {
 		padding-right: 10px;
 		margin: 10px;
 	}
-	#show-comments{
+	#show-comments {
 		width: 55px;
 		padding: 2,5px;
 	}
@@ -750,5 +760,37 @@ form {
 		padding: 10px;
 		margin-top: 0;
 		padding-top: 0;
+	}
+	/* buttons */
+	#login-button {
+		margin-top: 7px;
+		margin-right: -5px;
+	}
+	#logout {
+		margin-right: 36px;
 	}	
+	#add-post {
+		margin-top: 7px;
+		margin-right: -7px;
+	}
+	#registration {
+		margin-top: -15px;
+		margin-right: 39px;
+	}
+	#post-login-button {
+		margin-top: 5px;
+		margin-right: 0px;
+	}
+	#post-registration {
+		margin-top: 25px;
+		margin-right: -35px;
+	}
+	#edit-post {
+		margin-top: 5px;
+		margin-right: 0;
+	}
+	#delete-post {
+		margin-top: 25px;
+		margin-right: -75px;
+	}
 }

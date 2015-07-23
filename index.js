@@ -42,16 +42,6 @@ app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 var Account = require('./models/account');
-/*
-passport.serializeUser(function(user, done) {
-  done(null, Account._id);
-});
-
-passport.deserializeUser(function(id, done) {
-  Account.findById(id, function(err, user) {
-    done(err, user);
-  });
-});*/
 
 passport.use(new LocalStrategy(Account.authenticate()));
 
@@ -101,25 +91,20 @@ app.post('/register', function(req, res) {
 			return res.render('reg', { account : account });
         }
         passport.authenticate('local')(req, res, function () {
-            console.log('success', account);
 			res.redirect('/');
         });
     });
 });
 
 app.get('/login', function(req, res){
-	console.log('login', { user : req.user});
 	res.render('login', { user : req.user});
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
-    console.log('login', { user : req.user});
-	console.log('success login');
 	res.redirect('/');
 });
 
 app.get('/logout', function(req, res) {
-    console.log('logout');
 	req.logout();
     res.redirect('/');
 });
@@ -150,7 +135,6 @@ app.get('/:page?', function (req, res) {
 			if (err) {
 				res.send(err);
 			} else {
-				console.log({ user : req.user});
 				res.render('index', {
 					post: posts,
 					page: page + 1,
@@ -181,26 +165,20 @@ app.get('/posts/:post_id', function (req, res) {
 	promise = Post.findOne({ _id : req.params.post_id }).sort({ _id: -1 }).limit(1).exec();
 	
 	promise.then(function (foundPost) {		
-		console.log('post found');
 		post = foundPost;
 		return Post.findOne({ _id: { $gt: post_id }}).sort({ _id: 1 }).exec();	
 	}).then(function (nextFound) {
 		next = nextFound;
-		console.log('next found');
 		return Post.findOne({ _id: { $lt: post_id }}).sort({ _id: -1 }).exec(); 
 	}).then(function (prevFound) {
 		prev = prevFound;
-		console.log('prev found');
-		//console.log(post, next, prevFound);
 		return Comment.find({ post_id : req.params.post_id }).sort({ date : 1});
 	}).then (function (comments){
 		comment = comments;
-		console.log('comments found');
 	}).then(function (err, foundPost, nextFound, prevFound, comments){
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(post, next, prev, comment, { user : req.user});
 			res.render('post', {			
 				post: post,
 				next: next,
@@ -219,9 +197,9 @@ app.get('/posts/:post_id', function (req, res) {
 						return  text.split(' ').slice(0, 20).join(' ') + '...';
 					}
 				}
-			})
+			});
 		}
-	})
+	});
 });
 
 app.get('/posts/:post_id/comments', function (req, res) {
@@ -230,11 +208,8 @@ app.get('/posts/:post_id/comments', function (req, res) {
 			res.send('Nincs ilyen post!');
 		} else {
 			console.log('render comments');
-			// res.render('comment', {
-			// 	comment: comment,
-			// })
 		}
-	})
+	});
 }); 
 
 app.delete('/posts/:post_id', function (req, res) {
@@ -244,7 +219,7 @@ app.delete('/posts/:post_id', function (req, res) {
 		} else {
 			res.send('A post törölve lett!');
 		}
-	})
+	});
 });
 
 app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
@@ -254,13 +229,10 @@ app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
 		} else {
 			res.send('A comment törölve lett!');
 		}
-	})
+	});
 });
 
 app.post('/', upload.single('file'), function (req, res) {		
-	console.log('post');
-	//console.log(req.file);
-	//console.log(req.files);
 	var data = {
 		author: req.body.author,
 		title: req.body.title,
@@ -268,7 +240,6 @@ app.post('/', upload.single('file'), function (req, res) {
 		file: ''
 	}
 	if (req.file) {
-		console.log(req.file);
 		data.file = req.file.filename;
 	}
 	Post.create( data, function (err, post){
@@ -284,13 +255,11 @@ app.post('/', upload.single('file'), function (req, res) {
 			if (err.errors.author) {
 				errmessage.author = err.errors.author.message;
 			}
-			console.log(data);
 			res.send(errmessage);
 		} else {
-			console.log(data);
 			res.send(post);
 		}
-	})
+	});
 });
 
 app.post('/posts/:post_id/comments', function (req, res) {
@@ -307,11 +276,10 @@ app.post('/posts/:post_id/comments', function (req, res) {
 		} else {
 			res.send(comment);
 		}	
-	}) 
+	});
 });
 
 app.put('/posts/:post_id', function (req, res) {
-	console.log('put');
 	var data = {};
 	if (req.body.content !== undefined) {
 		data.content = req.body.content;
@@ -320,13 +288,12 @@ app.put('/posts/:post_id', function (req, res) {
 		data.title = req.body.title;
 	}
 	Post.findOneAndUpdate({ _id : req.params.post_id }, data, { new: true }, function (err, post){
-		console.log('put', post);
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
 			res.send(post);
 		}
-	})
+	});
 });
 
 app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
@@ -335,19 +302,17 @@ app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
 		data.content = req.body.content;
 	}
 	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, data, { new: true }, function (err, comment){
-		//console.log('comment', comment);
 		if (err) {
 			res.send('Nincs ilyen comment!');
 		} else {
 			res.send(comment);
 		}
-	}) 
+	}); 
 });
 
 var server = app.listen(3000, function () {
 	var host = server.address().address;
   	var port = server.address().port;
-
   	console.log('Example app listening at http://%s:%s', host, port);
 
 });
