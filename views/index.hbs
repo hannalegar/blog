@@ -1,0 +1,29 @@
+<a id="index-menu" href="http://localhost:3000">Menu</a>
+{{#if user}}
+	<a id="add-post" href="http://localhost:3000/new">Add new post</a><p></p>
+	<a id="logout" href="http://localhost:3000/logout">Logout</a>
+{{else}}
+	<a id="login-button" href="http://localhost:3000/login">Login</a><p></p>
+	<a id="registration" href="http://localhost:3000/register">Registration</a>
+{{/if}}
+<header id="index-header">
+	<h1>my blog</h1>
+	<p>random thoughts is what I do</p>
+</header>
+{{#each post}} 
+	<div class="post">
+		<a href="http://localhost:3000/posts/{{_id}}" id="index-a">
+			<h2>{{title}}</h2>
+		</a>
+		<p id="post-meta">{{datum date}}</p>
+		<p>{{truncate content}}</p>
+	</div>
+	{{else}}
+		<p class="post">There are no posts!</p>
+{{/each}}
+{{#if post}}
+	<div id="footer">
+		<a id="oldpost" href="http://localhost:3000/{{page}}">Older Posts</a>
+		<p>Page {{page}} of {{all}}</p>
+	</div>
+{{/if}}

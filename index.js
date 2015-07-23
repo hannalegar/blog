@@ -1,13 +1,68 @@
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var cookieParser = require('cookie-parser');
 var express = require('express');
+var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+var upload = multer({storage: multer.diskStorage({
+		destination: function(req, file, cb) {
+			cb(null, './public/images/user/');
+		},
+		filename: function(req, file, cb){
+			cb(null, file.originalname);
+		}
+	}),
+	fileFilter: function(req, file, cb){
+		if (file.mimetype == 'image/jpeg') {
+			cb(null, true);	
+		} else {
+			cb(null, false);
+		}
+	}
+});	
+
 var app = express();
+
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
+app.set('view engine', '.hbs');
+
+var Account = require('./models/account');
+
+passport.use(new LocalStrategy(Account.authenticate()));
+
+passport.serializeUser(Account.serializeUser(function(user, done){
+	done(null, Account._id);
+}));
+	
+passport.deserializeUser(Account.deserializeUser(function(id, done){
+	Account.findById(id, function(err, user){
+		done(err, user);
+	})
+}));
 
 var postSchema = mongoose.Schema({
 	title: { type: String, required: 'Nincs megadva cím!',  unique: true }, 
 	author: { type: String, required: 'Nincs megadva szerző!' },
 	content: { type: String, required: 'Nincsen tartalom!' },
+	file: {type: String },
 	date: { type: Date, default: Date.now }
 });
+
 var commentSchema = mongoose.Schema({
 	author: { type: String, required: 'Nincs megadva szerző!' },
 	content: { type: String, required: 'Nincsen tartalom!' },
@@ -25,24 +80,126 @@ db.once('open', function(){
 	console.log('DB connection is up');
 });
 
-app.get('/posts', function (req, res) {
-	Post.find(function (err, posts){
-		if (err) {
-			res.send(err);
-		} else {
-			res.send(posts);
-		}
-	})
+app.get('/register', function(req, res){
+	res.render('reg', {});
+})
+
+app.post('/register', function(req, res) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+            console.log(err);
+			return res.render('reg', { account : account });
+        }
+        passport.authenticate('local')(req, res, function () {
+			res.redirect('/');
+        });
+    });
 });
- 
-app.get('/posts/:post_id', function (req, res) {
-	Post.findOne({ _id : req.params.post_id }, function (err, post){
-		if (err) {
-			res.send('Nincs ilyen post!');
+
+app.get('/login', function(req, res){
+	res.render('login', { user : req.user});
+});
+
+app.post('/login', passport.authenticate('local'), function(req, res) {
+	res.redirect('/');
+});
+
+app.get('/logout', function(req, res) {
+	req.logout();
+    res.redirect('/');
+});
+
+app.get('/:page?', function (req, res) {
+	var	skip = 0, limit = 3, page = req.params.page, all;
+	
+	if (page === 'new') {
+		res.render('new', { user : req.user});
+	}
+	else if (page === 'register') {
+		res.render('reg');
+	} else {
+		if (page) {
+			page = page - 0;
+			skip = page * limit;		
 		} else {
-			res.send(post);
+			page = 0;
 		}
-	})
+		Post.count( {}, function (err, count){
+			if (err) {
+				console.log(err);
+			} else {
+				all = Math.ceil(count / limit);
+			}
+		})
+		Post.find(function (err, posts){
+			if (err) {
+				res.send(err);
+			} else {
+				res.render('index', {
+					post: posts,
+					page: page + 1,
+					all: all, 
+					user: req.user,
+					helpers: {
+						truncate: function (text) {
+							if (text.length < 100) {
+								return text;
+							} 
+							return  text.split(' ').slice(0, 50).join(' ') + '...'
+						},
+						datum: function (d) {
+							if(!d) { return ''; }
+							return d.toString().substring(0,3) + ' ' + d.getDate() + ' ' + d.getMonth() + ' ' + d.getFullYear();
+						}
+					}				
+				});
+			}
+		}).limit(limit).skip(skip).sort({date:-1});
+	}
+});
+
+app.get('/posts/:post_id', function (req, res) {
+	var promise, post, next, prev, comment,
+		post_id = req.params.post_id;
+	
+	promise = Post.findOne({ _id : req.params.post_id }).sort({ _id: -1 }).limit(1).exec();
+	
+	promise.then(function (foundPost) {		
+		post = foundPost;
+		return Post.findOne({ _id: { $gt: post_id }}).sort({ _id: 1 }).exec();	
+	}).then(function (nextFound) {
+		next = nextFound;
+		return Post.findOne({ _id: { $lt: post_id }}).sort({ _id: -1 }).exec(); 
+	}).then(function (prevFound) {
+		prev = prevFound;
+		return Comment.find({ post_id : req.params.post_id }).sort({ date : 1});
+	}).then (function (comments){
+		comment = comments;
+	}).then(function (err, foundPost, nextFound, prevFound, comments){
+		if (err) {
+			console.log(err);
+		} else {
+			res.render('post', {			
+				post: post,
+				next: next,
+				prev: prev,
+				comment: comment,
+				user: req.user,
+				helpers: {
+					datum: function (d) {
+						if(!d) { return ''; }
+						return d.toString().substring(0,3)+' '+d.getDate()+' '+d.getMonth()+' '+d.getFullYear();
+					},
+					truncate: function (text) {
+						if (text.length < 100) {
+							return text;
+						} 
+						return  text.split(' ').slice(0, 20).join(' ') + '...';
+					}
+				}
+			});
+		}
+	});
 });
 
 app.get('/posts/:post_id/comments', function (req, res) {
@@ -50,34 +207,44 @@ app.get('/posts/:post_id/comments', function (req, res) {
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
-			res.send(comment);
+			console.log('render comments');
 		}
-	})
-});
+	});
+}); 
 
 app.delete('/posts/:post_id', function (req, res) {
 	Post.findOneAndRemove({ _id : req.params.post_id }, function (err, post) {
 		if (err) {
-			res.send('Nem vol ilyen post!');
+			res.send('Nincs ilyen post!');
 		} else {
 			res.send('A post törölve lett!');
 		}
-	})
+	});
 });
 
 app.delete('/posts/:post_id/comments/:comment_id', function (req, res) {
 	Comment.findOneAndRemove({ _id : req.params.comment_id, post_id : req.params.post_id }, function (err, comment){
 		if (err){
-			res.send('Nem volt ilyen comment!');
+			res.send('Nincs ilyen comment!');
 		} else {
 			res.send('A comment törölve lett!');
 		}
-	})
+	});
 });
 
-app.post('/posts', function (req, res) {		
-	Post.create({ title : req.query.title, author : req.query.author, content : req.query.content }, function (err, post){
-		var errmessage = {};
+app.post('/', upload.single('file'), function (req, res) {		
+	var data = {
+		author: req.body.author,
+		title: req.body.title,
+		content: req.body.content,
+		file: ''
+	}
+	if (req.file) {
+		data.file = req.file.filename;
+	}
+	Post.create( data, function (err, post){
+		var errmessage = {};	
+		
 		if (err) {
 			if (err.errors.title) {
 				errmessage.title = err.errors.title.message;
@@ -92,11 +259,11 @@ app.post('/posts', function (req, res) {
 		} else {
 			res.send(post);
 		}
-	})
+	});
 });
 
 app.post('/posts/:post_id/comments', function (req, res) {
-	Comment.create({ author : req.query.author, content : req.query.content, post_id : req.params.post_id }, function (err, comment){
+	Comment.create({ author : req.body.author, content : req.body.content, post_id : req.params.post_id }, function (err, comment){
 		var errmessage = {};
 		if (err) {
 			if (err.errors.content){
@@ -109,43 +276,43 @@ app.post('/posts/:post_id/comments', function (req, res) {
 		} else {
 			res.send(comment);
 		}	
-	}) 
+	});
 });
 
 app.put('/posts/:post_id', function (req, res) {
 	var data = {};
-	if (req.query.content !== undefined) {
-		data.content = req.query.content;
+	if (req.body.content !== undefined) {
+		data.content = req.body.content;
 	}
-	if (req.query.title !== undefined) {
-		data.title = req.query.title;
+	if (req.body.title !== undefined) {
+		data.title = req.body.title;
 	}
-	Post.findOneAndUpdate({ _id : req.params.post_id },data, function (err, post){
+	Post.findOneAndUpdate({ _id : req.params.post_id }, data, { new: true }, function (err, post){
 		if (err) {
 			res.send('Nincs ilyen post!');
 		} else {
 			res.send(post);
 		}
-	})
+	});
 });
 
 app.put('/posts/:post_id/comments/:comment_id', function (req, res) {
-	if (req.query.content !== undefined) {
-		Post.content = req.query.content;
+	var data = {};
+	if (req.body.content !== undefined) {
+		data.content = req.body.content;
 	}
-	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, Post.content, function (err, comment){
+	Comment.findOneAndUpdate({ _id : req.params.comment_id, post_id : req.params.post_id }, data, { new: true }, function (err, comment){
 		if (err) {
 			res.send('Nincs ilyen comment!');
 		} else {
 			res.send(comment);
 		}
-	}) 
+	}); 
 });
 
 var server = app.listen(3000, function () {
 	var host = server.address().address;
   	var port = server.address().port;
-
   	console.log('Example app listening at http://%s:%s', host, port);
 
 });

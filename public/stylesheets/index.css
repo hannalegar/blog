@@ -1,33 +1,68 @@
+a {
+	text-decoration: none;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	color: #E1E4E5;
+	font-size: 1em;
+	padding: 10px;
+	font-family: 'Fira sans', sans-serif;
+}
+.submit {
+	color: #E1E4E5;
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1em;
+	padding: 10px;
+}
+/* index */
 html,body { 
 	height: 100%;
 }
 body {
 	font-size: 16px;
 }
-
 #wrap {
 	width: 960px;
 	margin: 0 auto;
 }
-a {
-	text-decoration: none;
-	padding: 10px;
-	border: 1px solid #E1E4E5;
-	color: #E1E4E5;
-	border-radius: 45px;
-	font-size: 1em;
-}
-#menu {
+#index-menu {
 	float: right;
 	margin-top: 20px;
 	margin-right: 20px;
 }
-header {
+#add-post {
+	float: right;
+	margin-top: 20px;
+	margin-right: 5px;
+	display: none;
+}
+#registration {
+	float: right;
+	margin-top: -15px;
+	margin-right: 88px;
+}
+#login-button {
+	float: right;
+	margin-top: 20px;
+	margin-right: 8px;
+}
+#logout {
+	display: none;
+	float: right;
+	margin-top: -15px;
+	margin-right: 88px;
+}
+/* header */
+#index-header {
 	padding-top: 120px;
 	padding-bottom: 120px;
 	text-align: center;
 }
-header h1 {
+#index-header h1 {
 	font-family: 'Fira Sans', sans-serif;
 	font-size: 3.75em;/* 16 x 3.75 = 60px */
 	font-weight: bold;
@@ -36,15 +71,17 @@ header h1 {
 	text-indent: -1px;
 	margin-bottom: 0px;
 }
-header p {
+#index-header p {
 	font-family: 'Cardo', serif;
 	font-size: 1.87em;
 	line-height: 45px;
 	text-align: center;
 	margin-top: 0;
 }
+/* post */
 .post {
-	padding: 55px;	
+	padding: 30px;
+	margin-top: 30px;
 }
 .post:before {
 	border-bottom: 1px solid #E1E4E5;
@@ -52,6 +89,10 @@ header p {
 	display: block;
 	position: relative;
 	bottom: 55px;
+}
+#index-a {
+	text-decoration: none;
+	color: black;
 }
 h2 {
 	font-family: 'Fira sans', sans-serif;
@@ -67,11 +108,19 @@ h2 {
 	line-height: 19px;
 	opacity: 0.5;
 	margin-bottom: 20px;
+	float: left;
+	width: 50%;
 }
 p {
 	font-family: 'Cardo', serif;
 	font-size: 1.25em;
+	clear: both;
 }
+.edit-post {
+	font-family: 'Fira sans', sans-serif;
+	float: right;
+}
+/* footer */
 #footer {
 	margin: 30px;
 }
@@ -96,6 +145,285 @@ p {
 	float: right;
 	margin-top: 5px;
 }
+/* post */
+#post-home, #post-menu, #edit-post, #delete-post {
+	margin: 20px;
+	color: white;
+	border-color: white;
+}
+#post-home {
+	float: left;
+}
+#post-menu {
+	float: right;
+	margin-left: 0;
+}
+#m {
+	margin-top: 30px;
+	float: right;
+	display: none;
+}
+#edit-post {
+	margin-left: 38px;
+}
+/* header */
+.post-header{
+	background-image: url("../images/quackey-teaser.png"); 
+	background-repeat: no-repeat;
+	background-size: 100%;
+	padding-top: 320px;
+	padding-bottom: 40px;
+}
+.post-title {
+	margin-left: 42px;
+	margin-right: 42px;
+	padding-left: 40px;
+	padding-right: 40px; 
+	color: white;
+}
+.post-header h1 {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 2.5em;
+	font-weight: bold;
+	line-height: 40px;
+	margin-bottom: 0px;
+	text-indent: -1;
+}
+.post-header p {
+	font-family: 'Fira sans', sans-serif;
+	font-size: 0.93em;
+	font-weight: bold;
+	line-height: 20px;
+	margin-top: 0;
+	margin-bottom: 20px;
+	opacity: 0.75;
+}
+#post-login-button {
+	float: right;
+	margin-top: 20px;
+	margin-right: 10px;
+}
+#post-registration{
+	float: right;
+	margin-top: 65px;
+	margin-right: -60px;
+}
+#delete-post {
+	float: right;
+	margin-top: 65px;
+	margin-right: -125px;
+}
+#edit-post {
+	float: right;
+}
+/* post */
+#post {
+	padding: 40px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+.content {
+	font-family: 'Cardo', serif;
+	font-size: 1.25em;
+	line-height: 30px;
+}
+/* edit form */
+#edit-p {
+	display: none;
+}
+#edit-p p{
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+#edit-title, #postedit-content {
+	border: 1px solid #E1E4E5;
+	border-radius: 35px;
+	width: 100%;
+	padding: 10px;
+}
+#postedit-content {
+	height: 200px;
+}
+/* author */
+#author{
+	display: block;
+	font-family: 'Fira sans', sans-serif;
+	padding-left: 40px;
+	padding-right: 40px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+#penguin {
+	width: 15%;
+	float: left;
+	padding: 10px;
+	padding-top: 0px;
+}
+#author h2 {
+	font-size: 1.25em;
+	font-weight: bold;
+	float: left;
+	width: 80%;
+	margin-bottom: 0;
+	margin-top: 0;	
+}
+#author p {
+	font-size: 0.93em;
+	float: left;
+	width: 80%;
+	margin: 0;
+}
+#post:after, #author:after, #posts:before, #posts:after, #comments h3:before {
+	border-bottom: 1px solid #E1E4E5;
+	content: " ";
+	display: block;
+	position: relative;
+	clear: both;
+}
+/* comments */
+#comment {
+	padding-left: 40px;
+	padding-right: 40px;
+	margin: 40px;
+	font-family: 'Fira sans', sans-serif;
+}
+#show-comments {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	color: #E1E4E5;
+	background-color: white;
+	padding: 10px;
+	font-size: 0.8em;
+	width: 120px;
+	display: block;
+	margin: 0 auto;
+	background-color: white;
+}
+#comments,  hide{
+	display: none;
+}
+#comments p{
+	font-size: 1em;
+}
+#invalid-c {
+	display: none;
+	color: red;
+	font-weight: bold;
+}
+#c-author, #add-content, #e-content {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	padding: 10px;
+	width: 98%;
+	font-size: 1em;
+}
+#comments-list p {
+	float: left;
+	width: 40%;
+}
+#comments-list h4 {
+	clear: both;
+}
+.delete {
+	float: right;
+}
+.edit {
+	float: right;	
+}
+#edit-c, #post-comment {
+	margin: 0;
+	padding: 0;
+}
+#edit-comment {
+	display: none;
+}
+/* prev, next */
+#posts {
+	margin: 40px;
+	padding: 40px;
+	margin-top: 0;
+	padding-top: 0;
+}
+#prev a, #next a {
+	text-decoration: none;
+	font-family: 'Fira sans', sans-serif;
+	color: black;
+}
+h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+#prev p, #next p {
+	font-size: 0.8em;
+}
+#prev, #next {
+	float: left;
+	width: 45%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+}
+#next {
+	border-right: 1px solid #E1E4E5;
+	padding-right: 5%;
+}
+#prev {
+	padding-left: 15px;
+}
+/* new */
+#new h1, #reg h1, #login h1 {
+	font-weight: bold;
+	padding: 40px;
+	margin: 40px;
+	text-align: center;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 2.5em;
+}
+#new h1:after, #reg h1:after, #login h1:after {
+	border-bottom: 1px solid #E1E4E5;
+	content: " ";
+	display: block;
+	position: relative;
+	bottom: -80px;
+}
+form {
+	padding: 40px;
+	margin: 40px;
+	font-family: 'Fira sans', sans-serif;
+}
+#n-author, #n-title, #n-content {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	width: 100%;
+	padding: 15px;
+}
+#invalid-nauthor, #invalid-ntitle, #invalid-ncontent{
+	font-size: 1.5em;
+	color: red;
+	font-weight: bold;
+}
+/* reg, login */
+#reg-form, #login-form {
+	padding: 40px;
+	margin: 40px;
+	font-family: 'Fira sans', sans-serif;
+}
+.r {
+	font-size: 2em;
+}
+.reginput, .logininput {
+	border: 1px solid #E1E4E5;
+	border-radius: 30px;
+	padding: 10px;
+	display: block;
+	width: 100%;
+}
+#invalid-username, #invalid-password {
+	direction: none;
+	color: red;
+	font-family: 'Fira sans', sans-serif;
+	font-size: 1.5em;
+}
 @media screen and (max-width: 960px){
 	#wrap {
 		width: auto;
@@ -105,18 +433,22 @@ p {
 	body {
 		font-size: 12px;
 	}
-	#menu {
+	a {
+		padding: 7px;
+	}
+/* index */	
+	#index-menu {
 		margin-top: 14px;
 		margin-right: 14px;
 	}
 	#wrap {
 		width: auto;
 	}
-	header {
+	#index-header {
 		padding-top: 85px;
 		padding-bottom: 85px;
 	}
-	header h1 {
+	#index-header h1 {
 		line-height: 36px;
 	}
 	h2 {
@@ -124,7 +456,7 @@ p {
 		margin-bottom: 16px;
 	}
 	.post {
-		padding: 40;
+		padding: 20;
 	}
 	#post-meta {
 		margin-bottom: 15px;
@@ -133,51 +465,243 @@ p {
 	p {
 		line-height: 24px;
 	}	
+/* post */
+	a {
+		margin: 10px;
+	}
+	#post-home, #post-menu {
+		margin: 15px;
+	}
+	.post-header {
+		background-size: 100%;
+		padding-top: 224px;
+	}
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
+		padding-left: 30px;
+		padding-right: 30px;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+	.post-header h1{
+		line-height: 36px;
+	}
+	.post-header p{
+		margin-bottom: 16px;
+	}
+	#post {
+		margin-left: 30px;
+		margin-right: 30px;
+		padding: 30px;
+	}
+	#author {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+	#penguin {
+		padding: 5px;
+		padding-top: 0px;
+	}
+	#comment {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin: 30px;
+	}
+	#show-comments{
+		width: 90px;
+		padding: 8px;
+	}
+	#c-author, #content {
+		width: 95%;
+		padding: 7,5px;
+	}
+	#posts {
+		margin: 30px;
+		padding: 30px;
+		margin-top: 0;
+		padding-top: 0;
+	}
+	/* buttons */
+	#add-post {
+		margin-top: 15px;
+		margin-right: -5px;
+	}
+	#logout {
+		margin-right: 65px;
+	}
+	#login-button {
+		margin-top: 15px;
+		margin-right: -5px;
+	}
+	#registration {
+		margin-top: -20px;
+		margin-right: 60px;
+	}
+	#post-login-button {
+		margin-top: 16px;
+		margin-right: -7px;
+	}
+	#post-registration {
+		margin-top: 50px;
+		margin-right: -57px;
+	}
+	#edit-post {
+		margin-right: -5px;
+		margin-top: 15px;
+	}
+	#delete-post {
+		margin-top: 50px;
+		margin-right: -105px;
+	}
 }
-
 @media screen and (max-width: 480px){
 	body {
 		font-size: 9px;
 	}
-	#menu {
-		margin-top: 10px;
-		margin-right: 10px;
-	}
 	#wrap {
 		width: auto;
 	}
-	header {
+	a {
+		padding: 5px;
+	}
+/* index */	
+	#index-menu {
+		margin-top: 10px;
+		margin-right: 10px;
+	}
+	#index-header {
 		padding-top: 60px;
 		padding-bottom: 60px;
 	}
-	header h1{
+	#index-header h1{
 		line-height: 32px;
 		margin-bottom: 16px; 
 	}
-	header p {
+	#index-header p {
 		line-height: 16px;
 		margin-bottom: 16px;
 		opacity: 0.75;
 	}
 	.post {
-		padding: 25px;
+		padding: 15px;
 	}
 	p {
 		line-height: 24px;
 	}	
+/* post */
+	#post-home, #post-menu {
+		margin: 10px;
+	}
+	.post-header {
+		padding-top: 168px;
+
+	}
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	.post-header h1 {
+		line-height: 32px;
+	}
+	.post-header p {
+		line-height: 16px;
+		margin-bottom: 16px;
+	}
+	#post {
+		margin-left: 20px;
+		margin-right: 20px;
+		padding: 20px;
+	}
+	#author {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#comment {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin: 20px;
+	}
+	#show-comments{
+		width: 70px;
+		padding: 5px;
+	}
+	#c-author, #content {
+		width: 93%;
+	}
+	#posts {
+		margin: 20px;
+		padding: 20px;
+		margin-top: 0;
+		padding-top: 0;
+	}
+	#next, #prev {
+		clear: both;
+		padding: 0;
+		width: 100%
+	}
+	#next:after {
+		border-bottom: 1px solid #E1E4E5;
+		content: " ";
+		display: block;
+		position: relative;
+		clear: both;
+	}
+	#next {
+		border: none;
+	}
+	/* buttons */
+	#login-button {
+		margin-top: 11px;
+		margin-right: -5px;
+	}
+	#registration {
+		margin-right: 48px;
+	}
+	#logout {
+		margin-right: 50px;
+	}
+	#add-post {
+		margin-top: 11px;
+		margin-right: -5px;
+	}
+	#post-login-button {
+		margin-right: -5px;
+		margin-top: 10px;
+	}
+	#post-registration {
+		margin-top: 35px;
+		margin-right: -45px;
+	}
+	#edit-post {
+		margin-top: 10px;
+		margin-right: -5px;
+	}
+	#delete-post {
+		margin-top: 35px;
+ 		margin-right: -85px;
+	}
 }
 @media screen and (max-width: 320px){
 	body {
 		font-size: 7px;
 	}
-	#menu {
-		margin-top: 7px;
-		margin-right: 7px;
-	}
 	#wrap {
 		width: auto;
 	}
-	header {
+	a {
+		padding: 3px;
+	}
+/* index */
+	#index-menu {
+		margin-top: 7px;
+		margin-right: 7px;
+	}
+	#index-header {
 		padding-top: 40px;
 		padding-bottom: 40px;
 	}
@@ -186,5 +710,87 @@ p {
 	}
 	.post:before {
 		bottom: 25px;
+	}
+/* post */
+	#post-home, #post-menu {
+		margin: 5px;
+	}
+	.post-header {
+		padding-top: 130px;
+
+	}
+	#title, #reg-form, #login-form, #login h1, #reg h1, #new-post, #new h1{
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.post-header h1 {
+		line-height: 25px;
+	}
+	.post-header p {
+		line-height: 10px;
+		margin-bottom: 10px;
+	}
+	#post {
+		margin-left: 10px;
+		margin-right: 10px;
+		padding: 10px;
+	}
+	p {
+		line-height: 15px;
+	}
+	#author {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#comment {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin: 10px;
+	}
+	#show-comments {
+		width: 55px;
+		padding: 2,5px;
+	}
+	#posts {
+		margin: 10px;
+		padding: 10px;
+		margin-top: 0;
+		padding-top: 0;
+	}
+	/* buttons */
+	#login-button {
+		margin-top: 7px;
+		margin-right: -5px;
+	}
+	#logout {
+		margin-right: 36px;
+	}	
+	#add-post {
+		margin-top: 7px;
+		margin-right: -7px;
+	}
+	#registration {
+		margin-top: -15px;
+		margin-right: 39px;
+	}
+	#post-login-button {
+		margin-top: 5px;
+		margin-right: 0px;
+	}
+	#post-registration {
+		margin-top: 25px;
+		margin-right: -35px;
+	}
+	#edit-post {
+		margin-top: 5px;
+		margin-right: 0;
+	}
+	#delete-post {
+		margin-top: 25px;
+		margin-right: -75px;
 	}
 }
